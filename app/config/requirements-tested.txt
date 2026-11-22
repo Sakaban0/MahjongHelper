@@ -1,0 +1,4 @@
+# 実際に検証したWindows / Python 3.12用の直接依存
+numpy==2.5.5
+opencv-python==4.14.0.94
+PySide6==6.12.0

@@ -1,0 +1,17 @@
+{
+  "tile_width": 60,
+  "tile_height": 80,
+  "layer_dx": -6,
+  "layer_dy": -6,
+  "threshold": 0.78,
+  "ambiguity_margin": 0.07,
+  "interval_ms": 400,
+  "stable_frames": 3,
+  "change_threshold": 1.5,
+  "surface_brightness": 155,
+  "flat_board": false,
+  "auto_pairs": true,
+  "roi": [0, 0, 1, 1],
+  "window_title": "",
+  "templates": []
+}
