@@ -15,6 +15,7 @@ from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QPush
     QSplitter, QScrollArea, QComboBox, QCheckBox, QDialog,
     QDialogButtonBox, QFormLayout, QDoubleSpinBox, QSpinBox, QLineEdit)
 
+from . import __version__
 from .core import (Settings, Recognizer, Tile, Result, StabilityGate, read_image,
                    write_image, infer_size, evaluate, project, pair_status, selection_highlight, same_face_detail)
 from .capture import PrintWindowCapture, list_windows, active, client_geometry, roi_pixels
@@ -627,6 +628,7 @@ class MainWindow(QMainWindow):
         box = QVBoxLayout(dialog)
         box.addWidget(QLabel('牌の表面の大きさと、1段ごとの描画ずれを指定します。\n画像上の大きさは実ピクセル、盤面範囲は対象内の0〜1の比率です。'))
         form = QFormLayout()
+        form.addRow("アプリのバージョン", QLabel(__version__))
         box.addLayout(form)
         fields = {}
         specs = [('pair_count', '同時表示するペア数（組）', 1, 99, 0),
