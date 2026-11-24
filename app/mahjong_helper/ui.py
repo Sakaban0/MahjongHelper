@@ -9,7 +9,7 @@ import uuid
 
 import cv2
 from PySide6.QtCore import Qt, QRectF, Signal, QObject, QRunnable, QThreadPool, QTimer
-from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap, QShortcut, QKeySequence, QFontDatabase, QFont
+from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap, QShortcut, QKeySequence, QFontDatabase, QFontMetrics, QFont
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QPushButton,
     QVBoxLayout, QHBoxLayout, QMenu, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem,
     QSplitter, QScrollArea, QComboBox, QCheckBox, QDialog,
@@ -81,6 +81,45 @@ def paint_hints(painter, result, selected, all_tiles, labels=False, pair_count=1
         painter.drawLine(int(a[0]+a[2]/2), int(a[1]+a[3]/2), int(b[0]+b[2]/2), int(b[1]+b[3]/2))
 
 
+class PairNotice:
+    def __init__(self, settings):
+        self.phase = 'idle'
+        self.count = 0
+        self.configure(settings)
+
+    @property
+    def text(self):
+        if self.phase is None and self.count:
+            return self.found_text.replace('{件数}', str(self.count))
+        return self.messages[self.phase]
+
+    def configure(self, settings):
+        self.found_text = settings.found_pairs_text
+        self.messages = {'idle': settings.idle_text, None: settings.no_pair_text, 'recognizing': settings.recognizing_text,
+                         'searching': settings.searching_text}
+        self.font = QFont(QApplication.font())
+        self.font.setPixelSize(settings.notice_font_size)
+        self.position = list(settings.no_pair_position)
+
+    def layout(self, width, height, metrics):
+        metrics = QFontMetrics(self.font)
+        text = metrics.elidedText(self.text, Qt.TextElideMode.ElideRight, max(0, int(width)-18))
+        w = min(width, metrics.horizontalAdvance(text)+18)
+        h = min(height, metrics.height()+10)
+        return QRectF((width-w)*self.position[0], (height-h)*self.position[1], w, h), text
+
+    def paint(self, painter, width, height):
+        painter.save()
+        painter.setFont(self.font)
+        rect, text = self.layout(width, height, painter.fontMetrics())
+        painter.setPen(QPen(QColor('red'), 2))
+        painter.setBrush(QColor('white'))
+        painter.drawRect(rect.adjusted(1, 1, -1, -1))
+        painter.setPen(QColor('black'))
+        painter.drawText(rect, Qt.AlignmentFlag.AlignCenter, text)
+        painter.restore()
+
+
 class BoardScrollArea(QScrollArea):
     def wheelEvent(self, event):
         canvas = self.widget()
@@ -98,6 +137,7 @@ class BoardScrollArea(QScrollArea):
 
 
 class Canvas(QWidget):
+    notice_moved = Signal()
     selected = Signal(tuple)
     zone_picked = Signal(int)
     tile_picked = Signal(int)
@@ -105,6 +145,8 @@ class Canvas(QWidget):
 
     def __init__(self):
         super().__init__()
+        self.notice = None
+        self.notice_offset = None
         self.image = self.result = None
         self.pair_count = 1
         self.pair = 0
@@ -131,6 +173,8 @@ class Canvas(QWidget):
         if self.image is None:
             painter.setPen(QColor('white'))
             painter.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, '対象ウィンドウを選択してください')
+            if self.notice and self.notice.text and self.debug:
+                self.notice.paint(painter, self.width(), self.height())
             return
         painter.scale(self.scale, self.scale)
         painter.drawPixmap(0, 0, pixmap(self.image))
@@ -147,17 +191,44 @@ class Canvas(QWidget):
             painter.drawRect(QRectF(self.drag_start[0], self.drag_start[1],
                                     self.drag_end[0]-self.drag_start[0], self.drag_end[1]-self.drag_start[1]).normalized())
 
+        if self.notice and self.notice.text and self.debug and not self.region_drag:
+            self.notice.paint(painter, self.image.shape[1], self.image.shape[0])
+
     def mousePressEvent(self, event):
         if self.image is not None and event.button() == Qt.MouseButton.LeftButton:
             self.drag_start = (event.position().x()/self.scale, event.position().y()/self.scale)
+            if self.notice and self.notice.text and self.debug and not self.region_drag:
+                h, w = self.image.shape[:2]
+                rect, _ = self.notice.layout(w, h, self.fontMetrics())
+                x, y = self.drag_start
+                if rect.contains(x, y):
+                    self.notice_offset = (x-rect.x(), y-rect.y())
+                    self.drag_start = self.drag_end = None
+                    return
             self.drag_end = self.drag_start
 
+    def move_notice(self, pos):
+        h, w = self.image.shape[:2]
+        rect, _ = self.notice.layout(w, h, self.fontMetrics())
+        self.notice.position = [min(1., max(0., (value/self.scale-offset)/max(1., span)))
+                                for value, offset, span in zip((pos.x(), pos.y()),
+                                    self.notice_offset, (w-rect.width(), h-rect.height()))]
+        self.update()
+
     def mouseMoveEvent(self, event):
+        if self.notice_offset is not None:
+            self.move_notice(event.position())
+            return
         if self.drag_start:
             self.drag_end = (event.position().x()/self.scale, event.position().y()/self.scale)
             self.update()
 
     def mouseReleaseEvent(self, event):
+        if self.notice_offset is not None:
+            self.move_notice(event.position())
+            self.notice_offset = None
+            self.notice_moved.emit()
+            return
         if not self.drag_start:
             return
         x0, y0 = self.drag_start
@@ -211,11 +282,12 @@ class Overlay(QWidget):
         self.pair = 0
         self.all_tiles = False
         self.zones = []
+        self.notice = None
         self.pixel_size = (1, 1)
         self.affinity = False
 
     def place(self, rect):
-        if not self.result or not (self.result.pairs or any(t.visual.get('stock') for t in self.result.tiles)):
+        if not (self.notice and self.notice.phase and self.notice.text) and (not self.result or not (self.result.pairs or (self.notice and self.notice.text) or any(t.visual.get('stock') for t in self.result.tiles))):
             self.hide()
             return
         x, y, w, h = rect
@@ -233,9 +305,12 @@ class Overlay(QWidget):
         painter.setRenderHint(QPainter.RenderHint.Antialiasing)
         painter.scale(self.width()/self.pixel_size[0], self.height()/self.pixel_size[1])
         paint_hints(painter, self.result, self.pair, self.all_tiles, pair_count=self.pair_count)
+        if self.notice and self.notice.text and (self.notice.phase or self.result is not None):
+            self.notice.paint(painter, *self.pixel_size)
 
 
 class JobSignals(QObject):
+    searching = Signal(int)
     done = Signal(int, object, object)
     failed = Signal(int, str)
 
@@ -262,7 +337,8 @@ class AnalyzeJob(QRunnable):
 
     def run(self):
         try:
-            result = Recognizer(self.settings, self.base).analyze(self.image)
+            result = Recognizer(self.settings, self.base).analyze(
+                self.image, lambda: self.signals.searching.emit(self.token))
             self.signals.done.emit(self.token, self.image, result)
         except Exception as exc:
             self.signals.failed.emit(self.token, str(exc))
@@ -328,6 +404,10 @@ class MainWindow(QMainWindow):
         self.raw_box.toggled.connect(self.display_options)
         row.addWidget(self.raw_box)
         row.addStretch()
+        self.quick_folder = None
+        self.quick_number = 1
+        self.quick_button = self.button(row, 'クイックデバッグ', self.quick_debug)
+        self.quick_button.setVisible(self.settings.debug_mode)
         table_button = QPushButton('表を表示')
         table_button.setCheckable(True)
         row.addWidget(table_button)
@@ -355,6 +435,8 @@ class MainWindow(QMainWindow):
         split = QSplitter(Qt.Orientation.Vertical)
         layout.addWidget(split, 1)
         self.canvas = Canvas()
+        self.canvas.notice = self.overlay.notice = PairNotice(self.settings)
+        self.canvas.notice_moved.connect(self.save_notice_position)
         self.canvas.selected.connect(self.selection)
         self.canvas.tile_picked.connect(self.pick_tile)
         self.canvas.tile_activated.connect(lambda index: self.safe(self.register_selected_template))
@@ -418,6 +500,8 @@ class MainWindow(QMainWindow):
             QMessageBox.warning(self, '処理できません', str(exc))
 
     def invalidate(self, clear=False):
+        self.canvas.notice.phase = 'idle'
+        self.canvas.update()
         self.clear_pair_preview()
         self.generation += 1
         self.overlay.hide()
@@ -425,6 +509,7 @@ class MainWindow(QMainWindow):
         self.validated_frame = False
         self.gate.reset()
         if clear:
+            self.canvas.notice.count = 0
             self.result = self.canvas.result = None
             self.canvas.selected_tile = None
             self.tile_preview.clear()
@@ -529,6 +614,11 @@ class MainWindow(QMainWindow):
         else:
             self.submit_capture()
 
+    def save_notice_position(self):
+        self.settings.no_pair_position = list(self.canvas.notice.position)
+        self.settings.save(self.config_path)
+        self.overlay.update()
+
     def edit_settings(self):
         self.pause()
         dialog = QDialog(self)
@@ -561,6 +651,40 @@ class MainWindow(QMainWindow):
             field.setValue(getattr(self.settings, key))
             fields[key] = field
             form.addRow(label, field)
+        notice_text = QLineEdit(self.settings.no_pair_text)
+        form.addRow('ペアがないときの表示文', notice_text)
+        idle_text = QLineEdit(self.settings.idle_text)
+        form.addRow('待機中の表示文', idle_text)
+        found_text = QLineEdit(self.settings.found_pairs_text)
+        form.addRow('ペア発見時の表示文（{件数}）', found_text)
+        recognizing = QLineEdit(self.settings.recognizing_text)
+        searching = QLineEdit(self.settings.searching_text)
+        font_size = QSpinBox()
+        font_size.setRange(8, 96)
+        font_size.setSuffix(' px')
+        font_size.setValue(self.settings.notice_font_size)
+        form.addRow('画像認識中の表示文', recognizing)
+        form.addRow('ペア検索中の表示文', searching)
+        form.addRow('案内の文字サイズ', font_size)
+        stock = QCheckBox('保有マスの牌を優先')
+        height = QCheckBox('段数の高い牌を優先')
+        stock.setChecked(self.settings.prioritize_stock)
+        height.setChecked(self.settings.prioritize_height)
+        form.addRow(stock)
+        form.addRow(height)
+        priority = QComboBox()
+        def update_priority_order():
+            priority.setEnabled(stock.isChecked() and height.isChecked())
+        stock.toggled.connect(update_priority_order)
+        height.toggled.connect(update_priority_order)
+        update_priority_order()
+        priority.addItem('保有マス → 高い段', 'stock')
+        priority.addItem('高い段 → 保有マス', 'height')
+        priority.setCurrentIndex(max(0,priority.findData(self.settings.pair_priority)))
+        form.addRow('ペアの優先順位', priority)
+        debug_mode = QCheckBox('デバッグモード')
+        debug_mode.setChecked(self.settings.debug_mode)
+        form.addRow(debug_mode)
         remember = QCheckBox('次回は終了時のウィンドウサイズを使う')
         remember.setChecked(self.settings.remember_size)
         form.addRow(remember)
@@ -600,6 +724,16 @@ class MainWindow(QMainWindow):
             candidate = copy.deepcopy(self.settings)
             for key, field in fields.items():
                 setattr(candidate, key, field.value())
+            candidate.idle_text = idle_text.text().strip()
+            candidate.found_pairs_text = found_text.text().strip()
+            candidate.recognizing_text = recognizing.text().strip()
+            candidate.searching_text = searching.text().strip()
+            candidate.notice_font_size = font_size.value()
+            candidate.no_pair_text = notice_text.text().strip()
+            candidate.prioritize_stock = stock.isChecked()
+            candidate.prioritize_height = height.isChecked()
+            candidate.pair_priority = priority.currentData()
+            candidate.debug_mode = debug_mode.isChecked()
             candidate.remember_size = remember.isChecked()
             candidate.flat_board = flat.isChecked()
             candidate.auto_pairs = auto_pairs.isChecked()
@@ -610,10 +744,26 @@ class MainWindow(QMainWindow):
             Recognizer(candidate, self.base)
             candidate.save(self.config_path)
             previous = copy.deepcopy(self.settings)
+            previous.no_pair_text = candidate.no_pair_text
+            previous.idle_text = candidate.idle_text
+            previous.found_pairs_text = candidate.found_pairs_text
+            previous.recognizing_text = candidate.recognizing_text
+            previous.searching_text = candidate.searching_text
+            previous.notice_font_size = candidate.notice_font_size
+            self.canvas.notice.configure(candidate)
+            self.canvas.update()
+            self.overlay.update()
+            previous.prioritize_stock = candidate.prioritize_stock
+            previous.prioritize_height = candidate.prioritize_height
+            previous.pair_priority = candidate.pair_priority
             previous.pair_count = candidate.pair_count
+            previous.debug_mode = candidate.debug_mode
+            self.quick_button.setVisible(candidate.debug_mode)
             self.settings = candidate
             self.gate.settings = candidate
             if previous == candidate and self.result is not None:
+                from .core import prioritize_pairs
+                prioritize_pairs(self.result, candidate)
                 self.canvas.pair = 0
                 self.show_result()
                 self.display_options()
@@ -689,7 +839,9 @@ class MainWindow(QMainWindow):
             self.gate.reset()
             for _ in range(self.settings.stable_frames):
                 self.gate.push(self.image)
-            self.overlay.result = self.result
+            self.canvas.notice.phase = 'idle'
+            self.overlay.result = None
+            self.canvas.update()
         else:
             self.invalidate(True)
         self.running = True
@@ -771,7 +923,8 @@ class MainWindow(QMainWindow):
                 self.frame = None
                 self.status.setText('表示サイズが変わりました。配置を再構築します。')
                 return
-            if self.running and self.frame and self.overlay.result and (self.validated_frame or self.preview_deadline):
+            if self.running and (self.canvas.notice.phase or
+                    (self.frame and self.overlay.result and (self.validated_frame or self.preview_deadline))):
                 rx, ry, rw, rh = roi_pixels(w, h, self.settings.roi)
                 self.overlay.place((x+rx, y+ry, rw, rh))
         except Exception:
@@ -815,10 +968,10 @@ class MainWindow(QMainWindow):
             self.canvas.set_image(self.image)
             self.submit_analysis()
         elif status == 'moving':
+            self.canvas.notice.phase = 'idle'
             self.validated_frame = False
             self.update_pair_preview()
             if not self.preview_deadline:
-                self.overlay.hide()
                 self.overlay.result = self.canvas.result = None
             self.result = None
             self.table.setRowCount(0)
@@ -832,6 +985,9 @@ class MainWindow(QMainWindow):
             self.canvas.set_image(self.image)
             self.submit_analysis()
         elif status == 'unchanged':
+            if self.result is not None:
+                self.canvas.notice.phase = None
+                self.overlay.result = self.result
             self.validated_frame = True
             self.canvas.set_image(self.image)
 
@@ -848,14 +1004,28 @@ class MainWindow(QMainWindow):
             return
         self.busy = True
         job = AnalyzeJob(self.generation, self.image.copy(), copy.deepcopy(self.settings), self.base)
+        self.set_notice_phase(self.generation, 'recognizing')
+        job.signals.searching.connect(self.pair_search_started)
         job.signals.done.connect(self.analyzed)
         job.signals.failed.connect(self.failed)
         self.pool.start(job)
+
+    def pair_search_started(self, token):
+        self.set_notice_phase(token, 'searching')
+
+    def set_notice_phase(self, token, phase):
+        if token == self.generation:
+            self.canvas.notice.phase = phase
+            self.canvas.update()
+            self.overlay.update()
+            if self.running:
+                self.follow_target()
 
     def analyzed(self, token, image, result):
         self.busy = False
         if token != self.generation:
             return
+        self.canvas.notice.phase = None
         self.preview_deadline = 0.0
         self.result = result
         if self.settings.auto_register:
@@ -885,6 +1055,8 @@ class MainWindow(QMainWindow):
     def show_result(self):
         if not self.result:
             return
+        self.canvas.notice.phase = None
+        self.canvas.notice.count = len(self.result.pairs)
         self.canvas.pair_count = self.overlay.pair_count = self.settings.pair_count
         self.overlay.pair = self.canvas.pair
         self.canvas.result = self.result
@@ -1060,6 +1232,7 @@ class MainWindow(QMainWindow):
             self.start()
 
     def table_changed(self, item):
+        self.canvas.notice.phase = 'idle'
         # A table edit invalidates published hints immediately, before Apply.
         self.running = False
         self.generation += 1
@@ -1211,6 +1384,68 @@ class MainWindow(QMainWindow):
         self.status.setText(f'牌サイズの推定: {size[0]:.1f} × {size[1]:.1f}px。設定から修正できます。再認識してください。')
         self.invalidate(True)
 
+    def debug_directory(self):
+        root = Path(__file__).resolve().parents[2]
+        return (root if self.base == root / 'json' else self.base) / 'debug'
+
+    def quick_debug(self):
+        from tempfile import TemporaryDirectory
+        image = self.canvas.image
+        if image is None:
+            self.status.setText('保存する盤面画像がありません。先に画像を取得してください。')
+            return
+        if self.quick_folder is None:
+            parent = self.debug_directory()
+            parent.mkdir(parents=True, exist_ok=True)
+            number = 1 + max((int(p.name) for p in parent.iterdir()
+                              if p.name.isascii() and p.name.isdigit()), default=0)
+            while True:
+                folder = parent / str(number)
+                try:
+                    folder.mkdir()
+                except FileExistsError:
+                    number += 1
+                else:
+                    self.quick_folder = folder
+                    break
+        folder = self.quick_folder
+        result = self.canvas.result
+        preview = pixmap(image)
+        painter = QPainter(preview)
+        try:
+            paint_hints(painter, result, self.canvas.pair, True,
+                        labels=True, pair_count=self.canvas.pair_count)
+        finally:
+            painter.end()
+        with TemporaryDirectory(dir=folder) as temporary:
+            board = Path(temporary) / 'board.png'
+            annotated = Path(temporary) / 'annotated.png'
+            write_image(board, image)
+            if not preview.save(str(annotated)):
+                raise OSError('注釈画像を保存できませんでした')
+            record = Path(temporary) / 'result.json'
+            record.write_text(json.dumps(result.to_dict() if result is not None else None,
+                                         ensure_ascii=False, indent=2), encoding='utf-8')
+            sources = (board, annotated, record)
+            while True:
+                n = self.quick_number
+                self.quick_number += 1
+                targets = [folder / f'{src.stem}{n}{src.suffix}' for src in sources]
+                if any(path.exists() for path in targets):
+                    continue
+                published = []
+                try:
+                    for src, target in zip(sources, targets):
+                        src.rename(target)
+                        published.append(target)
+                except OSError:
+                    for path in published:
+                        path.unlink()
+                    raise
+                break
+        names = '・'.join(path.name for path in targets)
+        self.status.setText(f'保存しました：{folder}（{names}）')
+
     def save_debug(self):
         from dataclasses import asdict
         from datetime import datetime
@@ -1221,9 +1456,7 @@ class MainWindow(QMainWindow):
         image, result, settings = self.last_debug
         if image is None:
             return
-        root = Path(__file__).resolve().parents[2]
-        debug_base = root if self.base == root / 'json' else self.base
-        folder = debug_base / 'debug' / datetime.now().strftime('%Y%m%d-%H%M%S-%f')
+        folder = self.debug_directory() / datetime.now().strftime('%Y%m%d-%H%M%S-%f')
         folder.mkdir(parents=True)
         write_image(folder/'board.png', image)
         preview = pixmap(image)

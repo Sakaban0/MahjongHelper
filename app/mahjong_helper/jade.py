@@ -42,6 +42,155 @@ def white_dragon(crop):
             np.median(center)>175 and np.mean(blue[12:38,10:30])<.015)
 
 
+def circle_count(crop):
+    """Red and green rows are shared; blue centers distinguish five from six."""
+    b,g,r = cv2.resize(crop,(48,60),interpolation=cv2.INTER_AREA).astype(float).transpose(2,0,1)
+    red = (r>g+28)&(r>b+28)
+    green = (g>r+18)&(g>b+14)
+    blue = (b>r+30)&(b>g+26)
+    def centers(mask, lo, hi):
+        band = mask[lo:hi,3:45].astype(np.uint8)
+        _, _, stats, points = cv2.connectedComponentsWithStats(band)
+        return sorted(x+3 for (_,_,w,h,area),(x,y) in zip(stats[1:],points[1:])
+                      if 5<=w<=16 and 5<=h<=17 and area>=19)
+    def two(xs):
+        return len(xs)==2 and 7<=xs[0]<=20 and 28<=xs[1]<=42
+    if two(centers(red,5,27)) and two(centers(green,34,55)):
+        middle = centers(blue,19,42)
+        if two(middle):
+            return '六筒'
+        if len(middle)==1 and 17<=middle[0]<=30:
+            return '五筒'
+
+
+def expand_stock_face(image, tile, stock_mask):
+    """A circular pip can supply the detection rectangle instead of the paper."""
+    x, y, w, h = tile.rect
+    if w < .91*h:
+        return
+    pad = round(.48 * w)
+    left, top = max(0, x-pad), max(0, y-pad)
+    patch = image[top:y+h+pad, left:x+w+pad]
+    mask = (patch.min(axis=2) > 230).astype(np.uint8)
+    contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    for contour in contours:
+        u, v, width, height = cv2.boundingRect(contour)
+        a, b = left+u, top+v
+        if (.70 < width/height < .88 and w <= width <= w*1.5 and h < height <= h*1.65
+                and abs(a+width/2-x-w/2) < .1*w and abs(b+height/2-y-h/2) < .12*h
+                and stock_mask[b:b+height, a:a+width].all()):
+            tile.rect = (a, b, width, height)
+            return
+
+
+def identify_reviewed_faces(image, tiles, samples):
+    for tile in tiles:
+        if tile.pattern and not tile.pattern.startswith('自動-'):
+            continue
+        x, y, w, h = tile.rect
+        sample = glyph(image[y:y+h, x:x+w])
+        scores = {}
+        for name, reference in samples:
+            score = float(sample @ reference)
+            scores[name] = max(scores.get(name, 0.), score)
+        ranked = sorted(scores, key=scores.get, reverse=True)
+        name = ranked[0]
+        rival = scores[ranked[1]] if len(ranked) > 1 else 0.
+        if scores[name] >= .97 and scores[name]-rival >= .065:
+            tile.pattern, tile.confidence, tile.runner_up = name, scores[name], rival
+
+
+def recover_shaded_faces(image, result):
+    """Recover partly shaded paper only with a matching face on this board."""
+    from .core import Tile
+    w, h = map(round, result.face_size)
+    refs = [(t.pattern, glyph(image[y:y+b, x:x+a])) for t in result.tiles
+            for x, y, a, b in [t.rect] if t.pattern and .9*w < a < 1.1*w
+            and .9*h < b < 1.1*h]
+    if not refs:
+        return
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    contours, _ = cv2.findContours(cv2.inRange(gray, 200, 255), cv2.RETR_EXTERNAL,
+                                   cv2.CHAIN_APPROX_SIMPLE)
+    for contour in contours:
+        x, y, a, b = cv2.boundingRect(contour)
+        if not (.74*w < a <= w and .77*h < b <= h and x+w <= image.shape[1]
+                and y+h <= image.shape[0] and cv2.contourArea(contour) > .54*a*b):
+            continue
+        if any(abs(t.rect[0]-x) < .45*w and abs(t.rect[1]-y) < .45*h for t in result.tiles):
+            continue
+        sample = glyph(image[y:y+h, x:x+w])
+        scores = sorted(((float(sample @ ref), name) for name, ref in refs), reverse=True)
+        score, name = scores[0]
+        rival = max((v for v, label in scores if label != name), default=0.)
+        if score < .97 or score-rival < .07:
+            continue
+        tile = Tile(len(result.tiles)+1, (x,y,w,h), name, score, rival, x/w, y/h)
+        tile.auto_access = 'unknown'
+        tile.auto_reason = '影のある牌面を同柄から復元。上の牌との重なりを確認できず保留'
+        result.tiles.append(tile)
+
+
+def exposed_front_face(image, tile, tiles):
+    """A front tile can hide the bottom bevel of the tile behind its top edge."""
+    v = tile.visual
+    if (tile.auto_access != 'unknown' or not tile.pattern or v.get('higher_blocker')
+            or min(v.get('left_background', 0), v.get('right_background', 0)) < .90
+            or min(v.get('rim') or [0]) < .95):
+        return False
+    x, y, w, h = tile.rect
+    neighbors = []
+    for other in tiles:
+        if other is tile:
+            continue
+        a, b, c, d = other.rect
+        if min(x+w, a+c) > max(x, a) and min(y+h, b+d) > max(y, b):
+            neighbors.append((a, b, c, d))
+    if len(neighbors) != 1:
+        return False
+    a, b, c, d = neighbors[0]
+    if not (.035*w < a-x < .15*w and b < y and 0 < b+d-y <= .12*h
+            and .88*w < c < 1.12*w and .85*h < d < 1.12*h):
+        return False
+    # Across the overlap the rear paper ends in shadow, followed by the
+    # continuous bright top rim of the foreground face.
+    left, right = x+round(.18*w), x+round(.82*w)
+    top = image[y:y+round(.12*h), left:right].min(axis=2)
+    margin = max(2, round(.025*h))
+    return bool(len(top) >= 2*margin and
+                np.mean(top[:margin] < 225) > .85 and
+                np.mean(top[-margin:] > 235) > .90)
+
+
+def verify_faces(image, tiles):
+    for tile in tiles:
+        x,y,w,h = map(round,tile.rect)
+        count = circle_count(image[y:y+h,x:x+w])
+        if count or tile.pattern in ('五筒','六筒'):
+            tile.pattern = count
+        if exposed_front_face(image, tile, tiles):
+            tile.auto_access = 'free'
+            tile.auto_reason = '左右の背景と、奥の牌の手前に続く明るい上縁を確認'
+        if tile.auto_access != 'free':
+            continue
+        # Half-row neighbours can block either side even without a fitted slot.
+        blocked = set()
+        for other in tiles:
+            if other is tile:
+                continue
+            a,b,c,d = other.rect
+            rows = abs(b-y)/h
+            if min(abs(rows),abs(rows-.5))>.04 or not .88*h<d<1.12*h:
+                continue
+            if abs(a-x-w)<.055*w:
+                blocked.add(1)
+            if abs(x-a-c)<.055*w:
+                blocked.add(-1)
+        if (1 in blocked or tile.visual.get('right_blocked')) and (-1 in blocked or tile.visual.get('left_blocked')):
+            tile.auto_access = 'unknown'
+            tile.auto_reason = '左右の牌面が接しているため保留'
+
+
 def classify(crop):
     names, samples = references()
     scores = samples @ glyph(crop)

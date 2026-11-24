@@ -21,7 +21,7 @@
 別のPCでは、Python 3.12（64bit推奨）を導入し、次を実行してください。依存ライブラリの導入時だけインターネットが必要です。
 
 ```powershell
-py -3.12 -m venv .venv
+python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r config/requirements-tested.txt
 .\.venv\Scripts\python.exe -m mahjong_helper
 ```

@@ -49,9 +49,20 @@ class Settings:
     ignored_regions: list = field(default_factory=list)
     stock_regions: list = field(default_factory=list)
     imported_bundle_entries: list = field(default_factory=list)
+    prioritize_stock: bool = True
+    prioritize_height: bool = True
+    pair_priority: str = 'stock'
+    no_pair_text: str = '取れるペアが見つかりません'
+    idle_text: str = '待機中'
+    recognizing_text: str = '画像認識中'
+    found_pairs_text: str = '{件数}件のペアが見つかりました'
+    searching_text: str = 'ペアを探しています'
+    notice_font_size: int = 18
+    no_pair_position: list = field(default_factory=lambda: [.02, .02])
     pair_count: int = 1
     initial_width: int = 1250
     initial_height: int = 900
+    debug_mode: bool = False
     remember_size: bool = False
     last_size: list = field(default_factory=list)
 
@@ -271,6 +282,33 @@ def ink_signature(face):
     return patch / max(1.,np.linalg.norm(patch))
 
 
+def match_stock_faces(image, held, tiles):
+    """Record visually verified stock partners when automatic IDs differ."""
+    def signature(tile):
+        x, y, w, h = tile.rect
+        return ink_signature(image[y:y+h, x:x+w])
+
+    samples = [(t, signature(t)) for t in tiles if t.pattern]
+    for stock in held:
+        if not stock.pattern:
+            continue
+        sample = signature(stock)
+        if sample is None:
+            continue
+        scores = [(float(np.sum(sample * other)), t) for t, other in samples
+                  if other is not None and t is not stock]
+        for score, tile in scores:
+            if score < .965 or stock.pattern == tile.pattern:
+                continue
+            if not any(p.startswith('自動-') for p in (tile.pattern, stock.pattern)):
+                continue
+            rival = max((v for v, t in scores if t.pattern not in
+                         (tile.pattern, stock.pattern)), default=0.)
+            if score - rival >= .04:
+                stock.visual.setdefault('stock_matches', []).append(
+                    [tile.index, stock.pattern, tile.pattern])
+
+
 def atlas_face(face):
     h, w = face.shape[:2]
     scale = min(64/w, 88/h)
@@ -298,6 +336,7 @@ class Recognizer:
     def __init__(self, settings, base_dir):
         self.settings = settings
         self.examples = []
+        self.jade_samples = []
         self.blank_ids = set()
         self.groups = {}
         for item in settings.templates:
@@ -305,6 +344,9 @@ class Recognizer:
             if not path.is_absolute():
                 path = Path(base_dir) / path
             sample = read_image(path)
+            if item.get("reviewed_theme") == "jade":
+                from .jade import glyph
+                self.jade_samples.append((item["id"], glyph(sample)))
             if plain_face(sample):
                 self.blank_ids.add(item['id'])
             self.examples.append((item['id'], feature(sample), ink_layout(sample)))
@@ -366,10 +408,10 @@ class Recognizer:
             return named_match
         return pattern, max(0., score), max(0., second)
 
-    def analyze(self, image):
+    def analyze(self, image, on_pair_search=None):
         settings = self.settings
         if not (settings.ignored_regions or settings.stock_regions):
-            return self._analyze(image)
+            return self._analyze(image, on_pair_search) if on_pair_search else self._analyze(image)
         started = time.perf_counter()
         height, width = image.shape[:2]
 
@@ -397,6 +439,9 @@ class Recognizer:
             from .alternate import identify, match, set_group
             theme = identify(board)
             for tile in held:
+                if theme == 'jade':
+                    from .jade import expand_stock_face
+                    expand_stock_face(board, tile, stock)
                 if tile.pattern and not tile.pattern.startswith('自動-'):
                     continue
                 matched = None
@@ -409,6 +454,9 @@ class Recognizer:
                 if matched:
                     tile.pattern, tile.confidence, tile.runner_up = matched
                     set_group(tile)
+            if theme == 'jade':
+                from .jade import verify_faces
+                verify_faces(board, held)
             board[stock] = 0
         result = self._analyze(board)
         excluded = ignored | stock
@@ -418,11 +466,15 @@ class Recognizer:
         result.tiles.extend(held)
         for index, tile in enumerate(result.tiles, 1):
             tile.index = index
+        if on_pair_search:
+            on_pair_search()
+        if held:
+            match_stock_faces(image, held, result.tiles)
         evaluate(result, settings, self.groups, certified=result.certified)
         result.elapsed_ms = (time.perf_counter()-started)*1000
         return result
 
-    def _analyze(self, image):
+    def _analyze(self, image, on_pair_search=None):
         start = time.perf_counter()
         tiles = []
         settings = self.settings
@@ -525,13 +577,22 @@ class Recognizer:
         if settings.auto_pairs and not settings.flat_board:
             from .ivory import apply_board
             ivory = read_board(image, result, settings, theme) if theme else apply_board(image, result, settings)
+        if theme == 'jade':
+            from .jade import recover_shaded_faces, verify_faces
+            if self.jade_samples:
+                from .jade import identify_reviewed_faces
+                identify_reviewed_faces(image, result.tiles, self.jade_samples)
+            recover_shaded_faces(image, result)
+            verify_faces(image, result.tiles)
+        if on_pair_search:
+            on_pair_search()
         evaluate(result, self.settings, self.groups, certified=self.settings.flat_board)
         if not settings.flat_board:
             self.find_visible_fragments(image, result, settings)
         if not settings.flat_board and not ivory:
             from .layers import estimate_layers
             estimate_layers(result.tiles, settings)
-            prioritize_pairs(result)
+            prioritize_pairs(result, settings)
         result.elapsed_ms = (time.perf_counter() - start) * 1000
         return result
 
@@ -684,13 +745,15 @@ def evaluate(result, settings, groups=None, certified=False):
             tile.state, tile.reason = '取れる', '上が空き、左または右が空いています'
     free = sorted((t for t in tiles if t.state == '取れる' and t.pattern is not None), key=lambda t: (t.board_y, t.board_x, t.index))
     for a, b in combinations(free, 2):
-        if groups.get(a.pattern, a.visual.get('match_group', a.pattern)) == groups.get(b.pattern, b.visual.get('match_group', b.pattern)):
+        stock_match = ([b.index, a.pattern, b.pattern] in a.visual.get('stock_matches', ())
+                       or [a.index, b.pattern, a.pattern] in b.visual.get('stock_matches', ()))
+        if stock_match or groups.get(a.pattern, a.visual.get('match_group', a.pattern)) == groups.get(b.pattern, b.visual.get('match_group', b.pattern)):
             result.pairs.append((a.index, b.index))
 
-    prioritize_pairs(result)
+    prioritize_pairs(result, settings)
 
 
-def prioritize_pairs(result):
+def prioritize_pairs(result, settings):
     """Prefer the highest removable tile, then its partner. Keep ties stable."""
     if len(result.pairs) < 2:
         return
@@ -702,8 +765,16 @@ def prioritize_pairs(result):
 
     def priority(pair):
         first, second = (levels[index] for index in pair)
-        return sum(i in stock_ids for i in pair), max(first, second), min(first, second)
+        stock = sum(i in stock_ids for i in pair)
+        heights = (max(first,second), min(first,second))
+        stock_rank = (stock,) if settings.prioritize_stock else ()
+        height_rank = heights if settings.prioritize_height else ()
+        if settings.pair_priority == 'height':
+            return height_rank + stock_rank
+        return stock_rank + height_rank
 
+    positions = {t.index: (t.board_y, t.board_x, t.index) for t in result.tiles}
+    result.pairs.sort(key=lambda pair: tuple(sorted(positions[i] for i in pair)))
     result.pairs.sort(key=priority, reverse=True)
 
 
