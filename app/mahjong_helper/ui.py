@@ -12,7 +12,7 @@ from PySide6.QtCore import Qt, QRectF, Signal, QObject, QRunnable, QThreadPool, 
 from PySide6.QtGui import QColor, QImage, QPainter, QPen, QPixmap, QShortcut, QKeySequence, QFontDatabase, QFontMetrics, QFont
 from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QLabel, QPushButton,
     QVBoxLayout, QHBoxLayout, QMenu, QFileDialog, QMessageBox, QTableWidget, QTableWidgetItem,
-    QSplitter, QScrollArea, QComboBox, QCheckBox, QDialog,
+    QSplitter, QScrollArea, QTabWidget, QComboBox, QCheckBox, QDialog,
     QDialogButtonBox, QFormLayout, QDoubleSpinBox, QSpinBox, QLineEdit)
 
 from . import __version__
@@ -624,12 +624,27 @@ class MainWindow(QMainWindow):
         self.pause()
         dialog = QDialog(self)
         dialog.setWindowTitle('認識と盤面の設定')
-        dialog.resize(650, 650)
+        area = self.screen().availableGeometry()
+        dialog.resize(min(650, int(area.width()*.9)), min(540, int(area.height()*.85)))
         box = QVBoxLayout(dialog)
-        box.addWidget(QLabel('牌の表面の大きさと、1段ごとの描画ずれを指定します。\n画像上の大きさは実ピクセル、盤面範囲は対象内の0〜1の比率です。'))
-        form = QFormLayout()
-        form.addRow("アプリのバージョン", QLabel(__version__))
-        box.addLayout(form)
+        tabs = QTabWidget()
+        box.addWidget(tabs, 1)
+
+        def settings_page(title):
+            scroll = QScrollArea()
+            scroll.setWidgetResizable(True)
+            page = QWidget()
+            layout = QFormLayout(page)
+            layout.setRowWrapPolicy(QFormLayout.RowWrapPolicy.WrapLongRows)
+            scroll.setWidget(page)
+            tabs.addTab(scroll, title)
+            return layout
+
+        pairs = settings_page('ペア')
+        notices = settings_page('案内表示')
+        recognition = settings_page('認識・盤面')
+        general = settings_page('一般')
+        general.addRow('アプリのバージョン', QLabel(__version__))
         fields = {}
         specs = [('pair_count', '同時表示するペア数（組）', 1, 99, 0),
                  ('initial_width', '起動時の幅（px）', 760, 16384, 0),
@@ -652,28 +667,33 @@ class MainWindow(QMainWindow):
                 field.setSingleStep(.01 if high == 1 else 1)
             field.setValue(getattr(self.settings, key))
             fields[key] = field
-            form.addRow(label, field)
+            target = recognition
+            if key == 'pair_count':
+                target = pairs
+            elif key in ('initial_width', 'initial_height'):
+                target = general
+            target.addRow(label, field)
         notice_text = QLineEdit(self.settings.no_pair_text)
-        form.addRow('ペアがないときの表示文', notice_text)
+        notices.addRow('ペアがないときの表示文', notice_text)
         idle_text = QLineEdit(self.settings.idle_text)
-        form.addRow('待機中の表示文', idle_text)
+        notices.addRow('待機中の表示文', idle_text)
         found_text = QLineEdit(self.settings.found_pairs_text)
-        form.addRow('ペア発見時の表示文（{件数}）', found_text)
+        notices.addRow('ペア発見時の表示文（{件数}）', found_text)
         recognizing = QLineEdit(self.settings.recognizing_text)
         searching = QLineEdit(self.settings.searching_text)
         font_size = QSpinBox()
         font_size.setRange(8, 96)
         font_size.setSuffix(' px')
         font_size.setValue(self.settings.notice_font_size)
-        form.addRow('画像認識中の表示文', recognizing)
-        form.addRow('ペア検索中の表示文', searching)
-        form.addRow('案内の文字サイズ', font_size)
+        notices.addRow('画像認識中の表示文', recognizing)
+        notices.addRow('ペア検索中の表示文', searching)
+        notices.addRow('案内の文字サイズ', font_size)
         stock = QCheckBox('保有マスの牌を優先')
         height = QCheckBox('段数の高い牌を優先')
         stock.setChecked(self.settings.prioritize_stock)
         height.setChecked(self.settings.prioritize_height)
-        form.addRow(stock)
-        form.addRow(height)
+        pairs.addRow(stock)
+        pairs.addRow(height)
         priority = QComboBox()
         def update_priority_order():
             priority.setEnabled(stock.isChecked() and height.isChecked())
@@ -683,42 +703,75 @@ class MainWindow(QMainWindow):
         priority.addItem('保有マス → 高い段', 'stock')
         priority.addItem('高い段 → 保有マス', 'height')
         priority.setCurrentIndex(max(0,priority.findData(self.settings.pair_priority)))
-        form.addRow('ペアの優先順位', priority)
+        pairs.addRow('ペアの優先順位', priority)
         debug_mode = QCheckBox('デバッグモード')
         debug_mode.setChecked(self.settings.debug_mode)
-        form.addRow(debug_mode)
+        general.addRow(debug_mode)
         remember = QCheckBox('次回は終了時のウィンドウサイズを使う')
         remember.setChecked(self.settings.remember_size)
-        form.addRow(remember)
+        general.addRow(remember)
         flat = QCheckBox('このゲームは重なりのない単層盤面と確認しました')
         flat.setChecked(self.settings.flat_board)
-        form.addRow('単層の描画規則', flat)
+        recognition.addRow('単層の描画規則', flat)
         auto_pairs = QCheckBox('画像から取れる牌とペアを自動判定する')
         auto_pairs.setChecked(self.settings.auto_pairs)
-        form.addRow('ペアの自動認識', auto_pairs)
+        recognition.addRow('ペアの自動認識', auto_pairs)
         learn = QCheckBox('一致した未知の柄を見本として保存')
         learn.setChecked(self.settings.auto_register)
-        form.addRow('柄の自動登録', learn)
+        recognition.addRow('柄の自動登録', learn)
         shade = QCheckBox('この盤面の明るい牌面を空き判定に使用')
         shade.setChecked(self.settings.use_bright_face_cue)
-        form.addRow('テーマ固有の色判定', shade)
+        recognition.addRow('テーマ固有の色判定', shade)
         roi_fields = []
-        roi_row = QHBoxLayout()
+        recognition.addRow(QLabel('盤面範囲（対象ウィンドウに対する比率 0〜1）'))
         for label, value in zip(('左', '上', '幅', '高さ'), self.settings.roi):
-            roi_row.addWidget(QLabel(label))
             field = QDoubleSpinBox()
             field.setRange(0, 1)
             field.setDecimals(6)
             field.setSingleStep(.01)
             field.setValue(value)
             roi_fields.append(field)
-            roi_row.addWidget(field)
-        box.addLayout(roi_row)
+            recognition.addRow(label, field)
         action_row = QHBoxLayout()
-        box.addLayout(action_row)
+        recognition.addRow(action_row)
         self.button(action_row, '登録した見本の一覧・編集', self.manage_templates)
-        box.addWidget(QLabel(f'設定の保存先: {self.config_path}'))
-        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
+        path = QLabel(str(self.config_path))
+        path.setWordWrap(True)
+        general.addRow('設定の保存先', path)
+        buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Save | QDialogButtonBox.StandardButton.Cancel)
+        defaults = Settings()
+
+        def reset_current_tab():
+            page = tabs.currentWidget().widget()
+            for key, field in fields.items():
+                if page.isAncestorOf(field):
+                    field.setValue(getattr(defaults, key))
+            if page is pairs.parentWidget():
+                stock.setChecked(defaults.prioritize_stock)
+                height.setChecked(defaults.prioritize_height)
+                priority.setCurrentIndex(priority.findData(defaults.pair_priority))
+            elif page is notices.parentWidget():
+                notice_text.setText(defaults.no_pair_text)
+                idle_text.setText(defaults.idle_text)
+                found_text.setText(defaults.found_pairs_text)
+                recognizing.setText(defaults.recognizing_text)
+                searching.setText(defaults.searching_text)
+                font_size.setValue(defaults.notice_font_size)
+            elif page is recognition.parentWidget():
+                flat.setChecked(defaults.flat_board)
+                auto_pairs.setChecked(defaults.auto_pairs)
+                learn.setChecked(defaults.auto_register)
+                shade.setChecked(defaults.use_bright_face_cue)
+                for field, value in zip(roi_fields, defaults.roi):
+                    field.setValue(value)
+            elif page is general.parentWidget():
+                debug_mode.setChecked(defaults.debug_mode)
+                remember.setChecked(defaults.remember_size)
+
+        reset = buttons.addButton('このタブを初期値に戻す', QDialogButtonBox.ButtonRole.ResetRole)
+        reset.clicked.connect(reset_current_tab)
+        buttons.button(QDialogButtonBox.StandardButton.Save).setText('保存')
+        buttons.button(QDialogButtonBox.StandardButton.Cancel).setText('キャンセル')
         buttons.accepted.connect(dialog.accept)
         buttons.rejected.connect(dialog.reject)
         box.addWidget(buttons)

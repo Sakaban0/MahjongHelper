@@ -37,7 +37,10 @@ def import_bundled_tiles(profile):
             raise ValueError('同梱した牌の画像が破損しています')
         if (entry['id'], digest) not in existing:
             (dest / name).write_bytes(data)
-            settings.templates.append(dict(id=entry['id'], group=entry['group'], path='templates/'+name))
+            tile = dict(id=entry['id'], group=entry['group'], path='templates/'+name)
+            if 'reviewed_theme' in entry:
+                tile['reviewed_theme'] = entry['reviewed_theme']
+            settings.templates.append(tile)
             existing.add((entry['id'], digest))
         settings.imported_bundle_entries.append(key)
     settings.save(profile)

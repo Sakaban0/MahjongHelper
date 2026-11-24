@@ -1,0 +1,1108 @@
+{
+  "tile_width": 67.0,
+  "tile_height": 89.0,
+  "layer_dx": -6.0,
+  "layer_dy": -6.0,
+  "threshold": 0.78,
+  "ambiguity_margin": 0.07,
+  "interval_ms": 100,
+  "stable_frames": 3,
+  "change_threshold": 1.5,
+  "surface_brightness": 155,
+  "flat_board": false,
+  "auto_pairs": true,
+  "auto_register": true,
+  "use_bright_face_cue": false,
+  "roi": [
+    0.045209,
+    0.094532,
+    0.933873,
+    0.852641
+  ],
+  "window_title": "Mah Jong",
+  "templates": [
+    {
+      "id": "三萬",
+      "group": "三萬",
+      "path": "templates/775bd766f654807505c8cbe523da445cd22dff09a977ba5c947c55d40eb53eda.png"
+    },
+    {
+      "id": "五萬",
+      "group": "五萬",
+      "path": "templates/fa38102454add2bb9f760ac20ef4479f052bf4e32cb3240a15b84c0e04dc7e99.png"
+    },
+    {
+      "id": "六萬",
+      "group": "六萬",
+      "path": "templates/0f2986675fee887e11eb236b9fb9422f115898e9146298a52d8a4b2f0089fb94.png"
+    },
+    {
+      "id": "七萬",
+      "group": "七萬",
+      "path": "templates/0c80d755ecac4a7f354eeeb079371b1b60c79465adcd2d52b3761629551cc887.png"
+    },
+    {
+      "id": "四萬",
+      "group": "四萬",
+      "path": "templates/842fb6f466b84495761470dab6f7614a07ddfefbc928541e1d8ecf308064365e.png"
+    },
+    {
+      "id": "九萬",
+      "group": "九萬",
+      "path": "templates/a0807c3455836a4a43e8d96dcdfe1f72625ecb7b34b4c7279dd613eec5151449.png"
+    },
+    {
+      "id": "東",
+      "group": "東",
+      "path": "templates/5a1a7f6487113545bcbf0a2333b05cb3bb244328be71d6e791e7be49dc290b27.png"
+    },
+    {
+      "id": "六筒",
+      "group": "六筒",
+      "path": "templates/b573061845719a1aa685852e5b699f15f94dcf41b9ccfce311abf49019412acc.png"
+    },
+    {
+      "id": "發",
+      "group": "發",
+      "path": "templates/e28f6b0bb0f2d4f713f20762e375c7d898b147d5749ab76438889033d6e96b14.png"
+    },
+    {
+      "id": "北",
+      "group": "北",
+      "path": "templates/17dcf8aee29b910e688600cc69f00453534f6b60e44db68884b09a67373a0cbc.png"
+    },
+    {
+      "id": "六索",
+      "group": "六索",
+      "path": "templates/ed0a786e83c3b76666ab8683107d9051e802333c2c91aae417ae6a143edd8fd6.png"
+    },
+    {
+      "id": "三索",
+      "group": "三索",
+      "path": "templates/174b3c20d445c04a0bf70f89d7771dc36f250711b533c4d5406b91f0537503d2.png"
+    },
+    {
+      "id": "西",
+      "group": "西",
+      "path": "templates/93e73decf8b1554f9480e846188bec90f8e617578c3b2969354089859f70369d.png"
+    },
+    {
+      "id": "南",
+      "group": "南",
+      "path": "templates/721d3dea0f151b6f5cbfa93e316e611169cbee4aaa900f4414742220de2587fe.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/46614559ff6d43d5feb431a3332e5f4429d20f689243ac2a6ce2efc13caffb09.png"
+    },
+    {
+      "id": "二索",
+      "group": "二索",
+      "path": "templates/12ff2e6e0f89b73f89379bbcc38707958906ac690c310684eb1713e9f6e44a29.png"
+    },
+    {
+      "id": "西",
+      "group": "西",
+      "path": "templates/151b1f76a76faa5fcc59f99f299ae8b614f3f3020e3de8383fe3826613850fa9.png"
+    },
+    {
+      "id": "南",
+      "group": "南",
+      "path": "templates/65544dd531993fc617b739cdf33fda95a248337534c1f6cf279571dede85e2ce.png"
+    },
+    {
+      "id": "三萬",
+      "group": "三萬",
+      "path": "templates/b253a63773b5b377426bc3daee904c396c47d12bc3d391aa580eb139084672a7.png"
+    },
+    {
+      "id": "四萬",
+      "group": "四萬",
+      "path": "templates/4fb59f586b112804b8a054e8863f5a65472ea4d6114cfa833a68810850387751.png"
+    },
+    {
+      "id": "一索",
+      "group": "一索",
+      "path": "templates/da4380d2761963d7b61b57f0d410effcd1540d894ea0728d2419cf225bfe7ac5.png"
+    },
+    {
+      "id": "七筒",
+      "group": "七筒",
+      "path": "templates/14f5f4b3bc22a6bf5d717a229b48312390a53b7e423b84df774a10ec7ef7d2dd.png"
+    },
+    {
+      "id": "二筒",
+      "group": "二筒",
+      "path": "templates/490212f8223bb3d02351907bc19327a2b799406a2a383816c4148895fc76b44c.png"
+    },
+    {
+      "id": "三索",
+      "group": "三索",
+      "path": "templates/732ca0f1f63b4d39e1e7c4ea3007630e34593d0bbe17dfdb08d02666f422e68e.png"
+    },
+    {
+      "id": "北",
+      "group": "北",
+      "path": "templates/b42ad153c3d2c5d06c3f20885b1649e5d45a3514a8e5b28b9504fe9dbfa5bb54.png"
+    },
+    {
+      "id": "五筒",
+      "group": "五筒",
+      "path": "templates/35daf7b2bb67c8f0a10445fb2f17b3ef32d5fea0ccaa43f734576f73467165a1.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/07f381e8ad2742514cb9f6dd0ad8bcdfec21f24f8d109d86ffb09648bbf92265.png"
+    },
+    {
+      "id": "中",
+      "group": "中",
+      "path": "templates/7ec514cbe74b0182f308d6e9d7fea385357c92524a7de0242a20150b2585be1b.png"
+    },
+    {
+      "id": "九筒",
+      "group": "九筒",
+      "path": "templates/8df0777496726eed67e23d3295035694673bb258fcbd17e80d874ec0854b86f9.png"
+    },
+    {
+      "id": "七萬",
+      "group": "七萬",
+      "path": "templates/79cac10c988ba1fe9a96d807878556b9b400ebb20066cca52b11bee3f64cc190.png"
+    },
+    {
+      "id": "七索",
+      "group": "七索",
+      "path": "templates/be612b240ff46f10b64351486af75b7ed1573f44946948f46893dc791b4c456d.png"
+    },
+    {
+      "id": "二萬",
+      "group": "二萬",
+      "path": "templates/d4043e59ea9762a2620bbecca4e178541201bde74f92e2b56b026e93bab4553b.png"
+    },
+    {
+      "id": "八萬",
+      "group": "八萬",
+      "path": "templates/677b908abad52d2debcb32b3526525eac4e447d133e16e63c6a322a0a8115c9a.png"
+    },
+    {
+      "id": "五萬",
+      "group": "五萬",
+      "path": "templates/6280e479c2ea604a4587be36234b5acc3f9662e690fad30510eba45aa490591d.png"
+    },
+    {
+      "id": "六索",
+      "group": "六索",
+      "path": "templates/97881b29427b2f7d3cf30231a8cf28081928b5dab9a8b60d81bcc494811998ec.png"
+    },
+    {
+      "id": "四索",
+      "group": "四索",
+      "path": "templates/ff4ceb532beeb804685195c8b31d1914bb3fd496f345848538641b3da7e2f1aa.png"
+    },
+    {
+      "id": "六萬",
+      "group": "六萬",
+      "path": "templates/0c25f82102207eed6beb91dc7960e5e0d9b62c33fce212bd1e216365b736dd5f.png"
+    },
+    {
+      "id": "發",
+      "group": "發",
+      "path": "templates/7677e58d1641aaa8191b7fdf50a992809af99992442d5f59451a8c23b25e6d4a.png"
+    },
+    {
+      "id": "五索",
+      "group": "五索",
+      "path": "templates/208aeb3623bee2cea37ff2fae8821d5ca234f586d8b43fb1f9fd699b82713ed2.png"
+    },
+    {
+      "id": "九萬",
+      "group": "九萬",
+      "path": "templates/2b712cc8dbef2d8d60d599941d347be78d5e27d74fa68f0ff460e27c25561558.png"
+    },
+    {
+      "id": "東",
+      "group": "東",
+      "path": "templates/cb2885fdebbabc691582b7b7a457d5d6f088eea9b9bf63529d88a9be9239c260.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/73ab7e70c76929f444a183676091d7ead7b7a2444e17ba90f8ab0921bbdc3916.png"
+    },
+    {
+      "id": "八筒",
+      "group": "八筒",
+      "path": "templates/e3dee869871521ec1b3f566663cc2538432782e7a168e8eb4bea9304cc5808a7.png"
+    },
+    {
+      "id": "八索",
+      "group": "八索",
+      "path": "templates/c43b4a11c13bb36005e126d33de7d5f5c034680fc5fcb76b5a7417dc00d03f91.png"
+    },
+    {
+      "id": "六筒",
+      "group": "六筒",
+      "path": "templates/066a8d2db51f5ae0031bc22739f2a4100ca10ba54b96894cd7c888de79816be9.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/a69fd972500fee805a1930d740bb31e647272ea489bae4866e43784272dd3081.png"
+    },
+    {
+      "id": "四筒",
+      "group": "四筒",
+      "path": "templates/2926e77eb8d1e4797a48ce7ebe105fd59b0e5d1061980d8ff13d6b5bf6b13ff8.png"
+    },
+    {
+      "id": "自動-c7490383fb",
+      "group": "自動-c7490383fb",
+      "path": "templates/6e0e93037c48dfe25a99844f04315b411a1da6afbf9dbe015f36b7ec47a2948e.png"
+    },
+    {
+      "id": "東",
+      "group": "東",
+      "path": "templates/7484962639690295dd142ec37ec486f0e81bfdcc1551a0835eaa75b8ccaa833c.png"
+    },
+    {
+      "id": "七索",
+      "group": "七索",
+      "path": "templates/93c89efab390de6217364b676303fe554b8ffe28e3fda5d92411de1262f74f5b.png"
+    },
+    {
+      "id": "西",
+      "group": "西",
+      "path": "templates/664144c4134fcc80b67cb07e5481e950396f8f951dda11ee1fec6799c57d62c3.png"
+    },
+    {
+      "id": "九索",
+      "group": "九索",
+      "path": "templates/00b96c9a8b125f59400896b3ba31b4d236aa653477ae45f89121cf1887359931.png"
+    },
+    {
+      "id": "五筒",
+      "group": "五筒",
+      "path": "templates/4352ed3ea73789eb694b54a0522d1bb75fccae1afe9c61869d16177ee622855e.png"
+    },
+    {
+      "id": "四索",
+      "group": "四索",
+      "path": "templates/4c6819f9a214e275761a405d2145288e22ab38b54e2f910489b97ec26e9cc14d.png"
+    },
+    {
+      "id": "九筒",
+      "group": "九筒",
+      "path": "templates/805627f747cdaf19ed0b3d468a1ebc92a2178ed92a5cc868e71906f96d91cb5e.png"
+    },
+    {
+      "id": "二索",
+      "group": "二索",
+      "path": "templates/216580d8250999cb6a8a30b57f3b8bf091d71a2565e7394e40abd4e5f1c955c8.png"
+    },
+    {
+      "id": "中",
+      "group": "中",
+      "path": "templates/a0985b6c2bf49f2955f37a599ce272a5ffacdb42ad7d0a0295d71c2750fad968.png"
+    },
+    {
+      "id": "六筒",
+      "group": "六筒",
+      "path": "templates/37b9c2c4cefa2ce4b281eeeb8b0d8cb6a8a5cb65bab6e9da05e20080bc331b8a.png"
+    },
+    {
+      "id": "二筒",
+      "group": "二筒",
+      "path": "templates/211096c7ca160b51f1abbca04b4ba0d0f95497a0181e19417abacfb3040c82eb.png"
+    },
+    {
+      "id": "三索",
+      "group": "三索",
+      "path": "templates/2ca951094c35c1540aae924b87f9b6258885bd67be3cd33273d5f05cac299197.png"
+    },
+    {
+      "id": "六索",
+      "group": "六索",
+      "path": "templates/4fefd64111249e00483ce0fcc661b8239f35ff6a856553056299dd9a9467c204.png"
+    },
+    {
+      "id": "八索",
+      "group": "八索",
+      "path": "templates/baa363584d11ad73ca247bfb701a0fb8374dc804537b4ca02e7f2bb63fce72c1.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/1eeff2854f44564667de8ff96f1740bcbe2942d0d92ce92849773a4d19968430.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/35f6075ec574d009c547ff715655810772a149f8510bfc1c6667a770930cd817.png"
+    },
+    {
+      "id": "五索",
+      "group": "五索",
+      "path": "templates/1e6be2620c48a63ee3849d154fbfdbed31babf919d5c562de2b7452aa8d3f17d.png"
+    },
+    {
+      "id": "八萬",
+      "group": "八萬",
+      "path": "templates/d9895277978c1b99c5c7962a55370c267661090f01e9c7c1bec46fe45374c028.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/a5271e641cbace160610df654e7ec0528e01ff119a2776862ebdb857f89bc810.png"
+    },
+    {
+      "id": "中",
+      "group": "中",
+      "path": "templates/254154651008fa095ae65047d4f5cd1fd2b44db1d1657789295d7e9e81d7e6e4.png"
+    },
+    {
+      "id": "五筒",
+      "group": "五筒",
+      "path": "templates/f4b4cd101e5ed0b1202ce55105439e0a62161fe7d8f775909e9b0c4e3811c235.png"
+    },
+    {
+      "id": "九筒",
+      "group": "九筒",
+      "path": "templates/1c39860157b32910aecafa9e3d35bda836dcb110d6132083a72fa2387dde258a.png"
+    },
+    {
+      "id": "八索",
+      "group": "八索",
+      "path": "templates/7d9dbf71eac3ff9b91d418f4aa37725e3926bba748dc78e203bcbeb8d556e669.png"
+    },
+    {
+      "id": "一索",
+      "group": "一索",
+      "path": "templates/d70ff7e45672a7f7ccbc7451afbacad9502c7da0495c0b3a0611ebf623ef1d9f.png"
+    },
+    {
+      "id": "二筒",
+      "group": "二筒",
+      "path": "templates/35ad1f33cc97fad6e41cca5de82656c4ca0d7121bc5a8790535bf7efcbd3c798.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/16fc1a8955b043a5dae5c8d59210e925505df8f4aa7d38e3d4b3f5a56b2e40cf.png"
+    },
+    {
+      "id": "北",
+      "group": "北",
+      "path": "templates/d7c524cfbbc9ce7f76d4ea10dd456d51921c36c53c633579535aaf9662b78894.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/38c441cf3f53c10da11fc5232d0bfa8c648f62e9cecd5fe229f2b3d1a64ba8c9.png"
+    },
+    {
+      "id": "九索",
+      "group": "九索",
+      "path": "templates/c08bc6eef0981291e5d9bc4248ed339101a1607c3b897cd5aeea559a56f87f90.png"
+    },
+    {
+      "id": "五萬",
+      "group": "五萬",
+      "path": "templates/9de6b9bdde3124569a90ede8bb2bc6b8849f071bf514e81263c8801922ebd72a.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/9434f9999a86128439a35e12dd1f66a637d2323be2456a7d03da567a17f36464.png"
+    },
+    {
+      "id": "七筒",
+      "group": "七筒",
+      "path": "templates/3603f7e6356ad75de2fc60c7eb77f81c6dbc60f35d36179666925254b765158c.png"
+    },
+    {
+      "id": "九萬",
+      "group": "九萬",
+      "path": "templates/e46718cad814d00d67dc1351488e39d886f565d61f57bc5fcce49dfe9810eef8.png"
+    },
+    {
+      "id": "東",
+      "group": "東",
+      "path": "templates/20294e649656ac709bbbf9e559d178820028c7620a3a2163b23a7e087537e5da.png"
+    },
+    {
+      "id": "南",
+      "group": "南",
+      "path": "templates/f7b3f0bbffb68c560702666b9da48943aa3e9d52f3dc562176ec2762b908eff0.png"
+    },
+    {
+      "id": "三索",
+      "group": "三索",
+      "path": "templates/1f0be4d4c9be91683a2f6849d342cabc97e01157e18a30b03fbbbdd5e15e4f89.png"
+    },
+    {
+      "id": "二萬",
+      "group": "二萬",
+      "path": "templates/d7d2e916a9865dd3c96fc5b6299c2a67e36ddd3f5aebe37cac0b738fe8c35712.png"
+    },
+    {
+      "id": "北",
+      "group": "北",
+      "path": "templates/ee2d40cb32756c8c4a195f2bef7b97f0e709a68144dd569f0f64e3ab611a84e9.png"
+    },
+    {
+      "id": "白",
+      "group": "白",
+      "path": "templates/c5fcdf2d68e46aa704af8e33148f001a0b9aab5fa729d62cb0c80fa39dc93188.png"
+    },
+    {
+      "id": "四萬",
+      "group": "四萬",
+      "path": "templates/4a9bc6d6e368ed9e9e13c97c7963547ebb224068c6088f9bea56d0b3274b11eb.png"
+    },
+    {
+      "id": "五萬",
+      "group": "五萬",
+      "path": "templates/74d5eb85c54d1b3ef27bd2b00ea3238821e9116de748c348bfc5697c273fc4a0.png"
+    },
+    {
+      "id": "七筒",
+      "group": "七筒",
+      "path": "templates/3e72107827db1ffa60aaa894c3d85b7bcfbfdf499af230a66830d957820cb25c.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/fe94831b86d776f0113f0e23074a1f027a7e22aa3c8909f6d21f2728f05bef06.png"
+    },
+    {
+      "id": "四索",
+      "group": "四索",
+      "path": "templates/0046f54c9b917edd5f455488b988c1b2e7d9dbda6ec9d55dfa6d735813c01f8d.png"
+    },
+    {
+      "id": "七萬",
+      "group": "七萬",
+      "path": "templates/a9999c991d577a4f3f45a430f8329cbdda2320335ef2aae448d1e254b0106b06.png"
+    },
+    {
+      "id": "九萬",
+      "group": "九萬",
+      "path": "templates/916ee5e6cbfa3d5efca07b36f02e2486cf6bf115f157c67519843fe12f3c66fd.png"
+    },
+    {
+      "id": "二筒",
+      "group": "二筒",
+      "path": "templates/bc58d36d6839ed5e3ae1c6b3bb6c537d074cfe85cc0d119ba0a0139b1ce23740.png"
+    },
+    {
+      "id": "一索",
+      "group": "一索",
+      "path": "templates/5c39388f5b0ca718f940f1cceac4475409927ae7976cd374d0abea6d63e72258.png"
+    },
+    {
+      "id": "西",
+      "group": "西",
+      "path": "templates/7a5cb2e422b73e25cce30176523fbc0d5e274f20d66c50516d7deee706f60e15.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/c352471df7208ef9572930c496c7a398cdb7c7b68b01f09ce02ab1703a11aa10.png"
+    },
+    {
+      "id": "六萬",
+      "group": "六萬",
+      "path": "templates/62b565b82ca1a9649b646a618620c761cb84a6bb1d8ebe62e5a2a2e116aec4c0.png"
+    },
+    {
+      "id": "六筒",
+      "group": "六筒",
+      "path": "templates/cec0b364e1d4ab69f3b5055e71240aa2b192cc2daf31e2b2ffbcf294d7bb63ca.png"
+    },
+    {
+      "id": "中",
+      "group": "中",
+      "path": "templates/a9a2980d7c8c62c9d3664c008421cbcf31a691a88a11d68b7a7e8e852bb104e8.png"
+    },
+    {
+      "id": "八索",
+      "group": "八索",
+      "path": "templates/9ad1db426702db930e9f3e46d5686be7f2f65cfef231579ad59a371aa1735731.png"
+    },
+    {
+      "id": "五索",
+      "group": "五索",
+      "path": "templates/6f664ba7c1082e106da224982a903941cc7bc8bdc60efec4426d9b3df87e03d9.png"
+    },
+    {
+      "id": "發",
+      "group": "發",
+      "path": "templates/d230087491b454bdce9d91c76576b2b81c17350c3db40cf8f263caaba6faaa57.png"
+    },
+    {
+      "id": "九索",
+      "group": "九索",
+      "path": "templates/74e03cf34f6c3e72b3bef1c76357a73f7bb52ce0eb53bf9c0a9892870c4622f3.png"
+    },
+    {
+      "id": "八萬",
+      "group": "八萬",
+      "path": "templates/4c2681cd615a7d12b1e6b5f6c7ab971a8cb6c13b520079191fe60220a98de404.png"
+    },
+    {
+      "id": "六索",
+      "group": "六索",
+      "path": "templates/bfebdfc8dbdf0a842f8adbb838d7e1c5d8db6d4ef1e2baa655f19698253b8637.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/699cec3265c568176fe39fa5ede722da71a7fcec40ebaccca7e86d1a92b850da.png"
+    },
+    {
+      "id": "二索",
+      "group": "二索",
+      "path": "templates/ccb8838ee78ea67c092e75953cb6407d258494241541aa6235a08e8c2cdf2611.png"
+    },
+    {
+      "id": "三萬",
+      "group": "三萬",
+      "path": "templates/1b5053184be3838cfe6ce17c30c6ac22dbf28e15f9c4c2f489c74ebec063a0ff.png"
+    },
+    {
+      "id": "九筒",
+      "group": "九筒",
+      "path": "templates/396978ba9480291cb8f3e50cc27ff655bd47a7dd8cd9aabd1eae650c9a9e34bd.png"
+    },
+    {
+      "id": "七筒",
+      "group": "七筒",
+      "path": "templates/994f3980e2d616ae85f5938e157f218f31cce6c88f6fcf6bbfa1ba0f988ec773.png"
+    },
+    {
+      "id": "五索",
+      "group": "五索",
+      "path": "templates/b1da02f7c63888c273dfdf152326dece17a5614a09b8e4e8ec61200792c0527a.png"
+    },
+    {
+      "id": "發",
+      "group": "發",
+      "path": "templates/a74b4a88d0aecabaab823a4c977d9c66896748abcbb7447702fc0c8b354b382c.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/6888fd832448e337fd07a74cc72e25cde7fa8f4dc35e9892ec9341cdcdf9a205.png"
+    },
+    {
+      "id": "花柄・青い鳥",
+      "group": "花柄・青い鳥",
+      "path": "templates/a4e73eb7af51f87b1853840fb935bb808b937dd64cb6ac9d287c3465b0553eb3.png"
+    },
+    {
+      "id": "發",
+      "group": "發",
+      "path": "templates/b27341d7f5f6e81200c169c4f28a6892671875e2808dfd650a42f5a0184e1cef.png"
+    },
+    {
+      "id": "四筒",
+      "group": "四筒",
+      "path": "templates/8f29c345e3fa674ee11a9b94355ebf3b31594a17328248d36354be6eb5527f63.png"
+    },
+    {
+      "id": "五筒",
+      "group": "五筒",
+      "path": "templates/975d8aad33e63ec2a39d3d6dff29a575cf728140e6066c97eb5ac00045b04906.png"
+    },
+    {
+      "id": "中",
+      "group": "中",
+      "path": "templates/684120d5acbd5fe732047022e273473aba21ce638c2e3709d6d436a0ee183381.png"
+    },
+    {
+      "id": "三筒",
+      "group": "三筒",
+      "path": "templates/66ff2a56c0ef33917b90b2d16f470df41d161030c35f278e1eb8be885c85ff0d.png"
+    },
+    {
+      "id": "六筒",
+      "group": "六筒",
+      "path": "templates/d6daea741294a30dacaec1290409ff0b0c9e753c71b61bd8f5dfc0804b2e2464.png"
+    },
+    {
+      "id": "二筒",
+      "group": "二筒",
+      "path": "templates/8faa10028aa6d9d2470bd81f35ec344531863ebe1eb9ade51ae53db7c1e26164.png"
+    },
+    {
+      "id": "白",
+      "group": "白",
+      "path": "templates/ccca4c755c59c4b8b99363a733d8b1218d00712704243972c992522af4a6bd44.png"
+    },
+    {
+      "id": "白",
+      "group": "白",
+      "path": "templates/30594d8d4f0c5dceea5078931ab8a51c5e3d70a62f11d9ee1b99a08f6d54901a.png"
+    },
+    {
+      "id": "花柄・七夕",
+      "group": "花柄・七夕",
+      "path": "templates/d34e35f953614b1476ce028db56404cd03e9d3b798a7b6fa5fbfdf70ba7d5893.png"
+    },
+    {
+      "id": "花柄・丸い赤花",
+      "group": "花柄・丸い赤花",
+      "path": "templates/0af56ce084630238707dfd51c4ca011d278a9e2bb57f9c94c5ffbab4d2709150.png"
+    },
+    {
+      "id": "花柄・赤い二輪",
+      "group": "花柄・赤い二輪",
+      "path": "templates/930b195012cd4ae21890768814ee7ab2335bfd7e2c0deb21453a17ee9666bfea.png"
+    },
+    {
+      "id": "花柄・赤い花",
+      "group": "花柄・赤い花",
+      "path": "templates/6dc337942f677e8dc95bf0b05b78a4f438d1d18223e20beb24f78af8649558a8.png"
+    },
+    {
+      "id": "白",
+      "group": "白",
+      "path": "templates/5030b726b46b805235aff60d44acc7782387e5cbdd179ee42058ed2eb1521eeb.png"
+    },
+    {
+      "id": "一筒",
+      "group": "一筒",
+      "path": "templates/6b6768743bd52176a629d0ad3dd9dbd27dee22a1898e246a2209400f66b059a1.png"
+    },
+    {
+      "id": "四筒",
+      "group": "四筒",
+      "path": "templates/3420c5c039a14c5defe96daa1e79a468cfd0bd01da939d166bc12df929f3925f.png"
+    },
+    {
+      "id": "五索",
+      "group": "五索",
+      "path": "templates/344c674de15f28c63f3ea228ea54d9932ffd26cdf8f421cc2c70b25a72fd93bb.png"
+    },
+    {
+      "id": "六索",
+      "group": "六索",
+      "path": "templates/db565e38cf3aa526cd212e2208adae7f39251d402de086a641dd4d1d530e61be.png"
+    },
+    {
+      "id": "三索",
+      "group": "三索",
+      "path": "templates/ff0de326dfc24e1e94a36fba30cb4cde67c429bc01624433156378743d489bdc.png"
+    },
+    {
+      "id": "二索",
+      "group": "二索",
+      "path": "templates/648b5afba9fd170adf2700ea28ce97b803ff13ad6e055878164ecd84503619fc.png"
+    },
+    {
+      "id": "四索",
+      "group": "四索",
+      "path": "templates/7bad30a64034a1a95bf87540f84e027ff5eec48ff8642e131dccbbb7266eb8ae.png"
+    },
+    {
+      "id": "北",
+      "group": "北",
+      "path": "templates/43e3348d85452ada777f95cbc3d300b294f084ee24a4614b5610e565762f3e59.png"
+    },
+    {
+      "id": "西",
+      "group": "西",
+      "path": "templates/6a368a9af14b457d23677cb7aaf8eca9d3a7dfe77b30484b4a4757f0fc3e4c27.png"
+    },
+    {
+      "id": "南",
+      "group": "南",
+      "path": "templates/0e3b0dad1b23d8cfec390105758e1802e0255191f9bea75e2f09d62404334da8.png"
+    },
+    {
+      "id": "東",
+      "group": "東",
+      "path": "templates/c81dd11dc7f946b6563e841735e59027d727e62e272e262e396c84fd1a882e4c.png"
+    },
+    {
+      "id": "五萬",
+      "group": "五萬",
+      "path": "templates/4b25ba638617d0816f9739520c5b85e25c3883d51fe901d7fc1eb8a23554bfac.png"
+    },
+    {
+      "id": "四萬",
+      "group": "四萬",
+      "path": "templates/ac13157b1d3aca2b181e12c1357d0e53685c822c1a32bf58ff84142479fbd43e.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/3b4544dca135af692299d5bd83edb4993f9d1d0d750f129ba4a65c483e26048f.png"
+    },
+    {
+      "id": "二萬",
+      "group": "二萬",
+      "path": "templates/f89e69ad8a5a2e11b1ca33be960997628dca493b287eae365ced10ec1fee1a74.png"
+    },
+    {
+      "id": "三萬",
+      "group": "三萬",
+      "path": "templates/6c5e0cb038751dbb4f236d24c81df8c3160be2a9d0dc72d3b1b9b1d73b3da667.png"
+    },
+    {
+      "id": "一萬",
+      "group": "一萬",
+      "path": "templates/bc83c990174fe078950782990d2750bd7dab8baeba8cb6296fba2bc6ff8bda61.png"
+    },
+    {
+      "id": "七索",
+      "group": "七索",
+      "path": "templates/0607df376ea23d23d1911a6236a9d5a7abc392e20bca99860377c88b5da9f655.png"
+    },
+    {
+      "id": "七筒",
+      "group": "七筒",
+      "path": "templates/78f5ae4739852efffa1fa1d62c27cca84d9775436575f6d67f453b9666060ea2.png"
+    },
+    {
+      "id": "八筒",
+      "group": "八筒",
+      "path": "templates/ca79f94548c4f245dd9736fc60d3e742449c0e1413b00d2e26025a4eea7dff05.png"
+    },
+    {
+      "id": "九筒",
+      "group": "九筒",
+      "path": "templates/d1785899a530222361e42e3263951df24052e199ee065ddb9246e0c688603f64.png"
+    },
+    {
+      "id": "三萬",
+      "group": "三萬",
+      "path": "templates/11efce9407613ca207b4b4e90f6ead3a80eb01c23b76fbf24220517579d908ce.png"
+    },
+    {
+      "id": "七索",
+      "group": "七索",
+      "path": "templates/ebad65179e7106b14b9999431b810b335d3f7573dde7c49f71dfe0ff9e1b8edf.png"
+    },
+    {
+      "id": "八索",
+      "group": "八索",
+      "path": "templates/64d80232283de8b66d5deea9c66596d5f44e72851ec7b5c25ba92608ee66bcee.png"
+    },
+    {
+      "id": "九索",
+      "group": "九索",
+      "path": "templates/5ffb9cc1f99edf23e6e31cceac319aa8483c81980d6abb6fcc1939d26bd2651c.png"
+    },
+    {
+      "id": "自動-6197e856d8",
+      "group": "自動-6197e856d8",
+      "path": "templates/999efac9c91f0dfa6061fa1c0d8eafac851ece472780350a0e0dbdb1c7c8b9c9.png"
+    },
+    {
+      "id": "自動-ecd6d21ece",
+      "group": "自動-ecd6d21ece",
+      "path": "templates/f776e3869b20ccb71a4a7d528de304d4df2a17cbffb8c49918bb00c7538d0b85.png"
+    },
+    {
+      "id": "自動-66e82a57bf",
+      "group": "自動-66e82a57bf",
+      "path": "templates/41a309a09f5b312d7e7013f008846d345e3a99dec245782fb1c0f6b9da4c4b92.png"
+    },
+    {
+      "id": "自動-2d25e208cc",
+      "group": "自動-2d25e208cc",
+      "path": "templates/bce29b47993b291a45169a495c6bae8e18e4d6ad1f882d34544222b27ae7804d.png"
+    },
+    {
+      "id": "自動-1b65e0aaef",
+      "group": "自動-1b65e0aaef",
+      "path": "templates/d10c55cbe12a67b40354645e43429e3d9afe77d88e3bc1090d7f56dca1c05118.png"
+    },
+    {
+      "id": "自動-ae5ccd2bc9",
+      "group": "自動-ae5ccd2bc9",
+      "path": "templates/cbc83afddba1433197031003dd0817792c4878229624d1bf1918ca3b284879c2.png"
+    },
+    {
+      "id": "自動-64232ed631",
+      "group": "自動-64232ed631",
+      "path": "templates/5f66824282995d015fe3dc303334f156d1189b542357f423ceb69b2438fa61e0.png"
+    },
+    {
+      "id": "自動-9182d95996",
+      "group": "自動-9182d95996",
+      "path": "templates/ce784fe4ed4c066ecda1e44e275cc1fedd3dcd909ffc578ea29c113a9f04a468.png"
+    },
+    {
+      "id": "自動-1a72beee3e",
+      "group": "自動-1a72beee3e",
+      "path": "templates/42e6be9e1f03c9fe29e9035ad4560fbe69c4c6f6de2d8c5b2de8c6bc763e33e7.png"
+    },
+    {
+      "id": "自動-8e99172e83",
+      "group": "自動-8e99172e83",
+      "path": "templates/6feb83877313efd5f2fd9aa6e92d985df9e41977e3353b41408ace26b1a8654a.png"
+    },
+    {
+      "id": "自動-14b9a0e8a7",
+      "group": "自動-14b9a0e8a7",
+      "path": "templates/482cb8078eac3fb17d72f597eb9c406721510185a8e6032e7c0baaf611d5fd1d.png"
+    },
+    {
+      "id": "自動-e3bb898b81",
+      "group": "自動-e3bb898b81",
+      "path": "templates/cb3f5e46b1fffb49dd3191c46050912251eb01cec9f954a8307a7a87f8076359.png"
+    },
+    {
+      "id": "自動-ed50e18e4d",
+      "group": "自動-ed50e18e4d",
+      "path": "templates/7035dc9cee378a5a6312f05c362a7af49c0d9ac5255df2016d7cdf59b8ff54a3.png"
+    },
+    {
+      "id": "自動-f84787b3f9",
+      "group": "自動-f84787b3f9",
+      "path": "templates/88311a92e05b8e88baf9ea75dee9ee53345021fed69523c8d12d2db2be900510.png"
+    },
+    {
+      "id": "自動-5577fd059a",
+      "group": "自動-5577fd059a",
+      "path": "templates/0d65051e81fbdb3690056fd3e7512ec60cde95b9dd8a15a94b9738cb81758307.png"
+    },
+    {
+      "id": "自動-d8a3876d47",
+      "group": "自動-d8a3876d47",
+      "path": "templates/668338189615e2590f02e14af34acb4fb1ced591fe7973884c420b6f5f302ecc.png"
+    },
+    {
+      "id": "自動-3aa5adbb3d",
+      "group": "自動-3aa5adbb3d",
+      "path": "templates/d0e2b3efefe99d5c2116f9427cd3c49f2a2afbb868e5062924b36f550dc4881a.png"
+    },
+    {
+      "id": "自動-e2f43a49b8",
+      "group": "自動-e2f43a49b8",
+      "path": "templates/77423c1cf5d58770221db23259eccdf6464aec9f41e895e30b32b1857a35aa5a.png"
+    },
+    {
+      "id": "自動-cd8fbd9138",
+      "group": "自動-cd8fbd9138",
+      "path": "templates/6f522c269331d74863688e1340b8b5d10cc57acade6238e08826c4d959a6bad2.png"
+    },
+    {
+      "id": "自動-1d95e1facb",
+      "group": "自動-1d95e1facb",
+      "path": "templates/ee8108cd4b8f2d236e094351290a9b9feeb0c149e6b573834f7180ae167c0d40.png"
+    }
+  ],
+  "ignored_regions": [],
+  "stock_regions": [
+    [
+      0.3143063583815029,
+      0.01956521739130435,
+      0.38583815028901736,
+      0.12934782608695652
+    ]
+  ],
+  "imported_bundle_entries": [
+    "[\"三萬\", \"三萬\", \"775bd766f654807505c8cbe523da445cd22dff09a977ba5c947c55d40eb53eda.png\"]",
+    "[\"五萬\", \"五萬\", \"fa38102454add2bb9f760ac20ef4479f052bf4e32cb3240a15b84c0e04dc7e99.png\"]",
+    "[\"六萬\", \"六萬\", \"0f2986675fee887e11eb236b9fb9422f115898e9146298a52d8a4b2f0089fb94.png\"]",
+    "[\"七萬\", \"七萬\", \"0c80d755ecac4a7f354eeeb079371b1b60c79465adcd2d52b3761629551cc887.png\"]",
+    "[\"四萬\", \"四萬\", \"842fb6f466b84495761470dab6f7614a07ddfefbc928541e1d8ecf308064365e.png\"]",
+    "[\"九萬\", \"九萬\", \"a0807c3455836a4a43e8d96dcdfe1f72625ecb7b34b4c7279dd613eec5151449.png\"]",
+    "[\"東\", \"東\", \"5a1a7f6487113545bcbf0a2333b05cb3bb244328be71d6e791e7be49dc290b27.png\"]",
+    "[\"六筒\", \"六筒\", \"b573061845719a1aa685852e5b699f15f94dcf41b9ccfce311abf49019412acc.png\"]",
+    "[\"發\", \"發\", \"e28f6b0bb0f2d4f713f20762e375c7d898b147d5749ab76438889033d6e96b14.png\"]",
+    "[\"北\", \"北\", \"17dcf8aee29b910e688600cc69f00453534f6b60e44db68884b09a67373a0cbc.png\"]",
+    "[\"六索\", \"六索\", \"ed0a786e83c3b76666ab8683107d9051e802333c2c91aae417ae6a143edd8fd6.png\"]",
+    "[\"三索\", \"三索\", \"174b3c20d445c04a0bf70f89d7771dc36f250711b533c4d5406b91f0537503d2.png\"]",
+    "[\"西\", \"西\", \"93e73decf8b1554f9480e846188bec90f8e617578c3b2969354089859f70369d.png\"]",
+    "[\"南\", \"南\", \"721d3dea0f151b6f5cbfa93e316e611169cbee4aaa900f4414742220de2587fe.png\"]",
+    "[\"一筒\", \"一筒\", \"46614559ff6d43d5feb431a3332e5f4429d20f689243ac2a6ce2efc13caffb09.png\"]",
+    "[\"二索\", \"二索\", \"12ff2e6e0f89b73f89379bbcc38707958906ac690c310684eb1713e9f6e44a29.png\"]",
+    "[\"西\", \"西\", \"151b1f76a76faa5fcc59f99f299ae8b614f3f3020e3de8383fe3826613850fa9.png\"]",
+    "[\"南\", \"南\", \"65544dd531993fc617b739cdf33fda95a248337534c1f6cf279571dede85e2ce.png\"]",
+    "[\"三萬\", \"三萬\", \"b253a63773b5b377426bc3daee904c396c47d12bc3d391aa580eb139084672a7.png\"]",
+    "[\"四萬\", \"四萬\", \"4fb59f586b112804b8a054e8863f5a65472ea4d6114cfa833a68810850387751.png\"]",
+    "[\"一索\", \"一索\", \"da4380d2761963d7b61b57f0d410effcd1540d894ea0728d2419cf225bfe7ac5.png\"]",
+    "[\"七筒\", \"七筒\", \"14f5f4b3bc22a6bf5d717a229b48312390a53b7e423b84df774a10ec7ef7d2dd.png\"]",
+    "[\"二筒\", \"二筒\", \"490212f8223bb3d02351907bc19327a2b799406a2a383816c4148895fc76b44c.png\"]",
+    "[\"三索\", \"三索\", \"732ca0f1f63b4d39e1e7c4ea3007630e34593d0bbe17dfdb08d02666f422e68e.png\"]",
+    "[\"北\", \"北\", \"b42ad153c3d2c5d06c3f20885b1649e5d45a3514a8e5b28b9504fe9dbfa5bb54.png\"]",
+    "[\"五筒\", \"五筒\", \"35daf7b2bb67c8f0a10445fb2f17b3ef32d5fea0ccaa43f734576f73467165a1.png\"]",
+    "[\"一萬\", \"一萬\", \"07f381e8ad2742514cb9f6dd0ad8bcdfec21f24f8d109d86ffb09648bbf92265.png\"]",
+    "[\"中\", \"中\", \"7ec514cbe74b0182f308d6e9d7fea385357c92524a7de0242a20150b2585be1b.png\"]",
+    "[\"九筒\", \"九筒\", \"8df0777496726eed67e23d3295035694673bb258fcbd17e80d874ec0854b86f9.png\"]",
+    "[\"七萬\", \"七萬\", \"79cac10c988ba1fe9a96d807878556b9b400ebb20066cca52b11bee3f64cc190.png\"]",
+    "[\"七索\", \"七索\", \"be612b240ff46f10b64351486af75b7ed1573f44946948f46893dc791b4c456d.png\"]",
+    "[\"二萬\", \"二萬\", \"d4043e59ea9762a2620bbecca4e178541201bde74f92e2b56b026e93bab4553b.png\"]",
+    "[\"八萬\", \"八萬\", \"677b908abad52d2debcb32b3526525eac4e447d133e16e63c6a322a0a8115c9a.png\"]",
+    "[\"五萬\", \"五萬\", \"6280e479c2ea604a4587be36234b5acc3f9662e690fad30510eba45aa490591d.png\"]",
+    "[\"六索\", \"六索\", \"97881b29427b2f7d3cf30231a8cf28081928b5dab9a8b60d81bcc494811998ec.png\"]",
+    "[\"四索\", \"四索\", \"ff4ceb532beeb804685195c8b31d1914bb3fd496f345848538641b3da7e2f1aa.png\"]",
+    "[\"六萬\", \"六萬\", \"0c25f82102207eed6beb91dc7960e5e0d9b62c33fce212bd1e216365b736dd5f.png\"]",
+    "[\"發\", \"發\", \"7677e58d1641aaa8191b7fdf50a992809af99992442d5f59451a8c23b25e6d4a.png\"]",
+    "[\"五索\", \"五索\", \"208aeb3623bee2cea37ff2fae8821d5ca234f586d8b43fb1f9fd699b82713ed2.png\"]",
+    "[\"九萬\", \"九萬\", \"2b712cc8dbef2d8d60d599941d347be78d5e27d74fa68f0ff460e27c25561558.png\"]",
+    "[\"東\", \"東\", \"cb2885fdebbabc691582b7b7a457d5d6f088eea9b9bf63529d88a9be9239c260.png\"]",
+    "[\"一筒\", \"一筒\", \"73ab7e70c76929f444a183676091d7ead7b7a2444e17ba90f8ab0921bbdc3916.png\"]",
+    "[\"八筒\", \"八筒\", \"e3dee869871521ec1b3f566663cc2538432782e7a168e8eb4bea9304cc5808a7.png\"]",
+    "[\"八索\", \"八索\", \"c43b4a11c13bb36005e126d33de7d5f5c034680fc5fcb76b5a7417dc00d03f91.png\"]",
+    "[\"六筒\", \"六筒\", \"066a8d2db51f5ae0031bc22739f2a4100ca10ba54b96894cd7c888de79816be9.png\"]",
+    "[\"三筒\", \"三筒\", \"a69fd972500fee805a1930d740bb31e647272ea489bae4866e43784272dd3081.png\"]",
+    "[\"四筒\", \"四筒\", \"2926e77eb8d1e4797a48ce7ebe105fd59b0e5d1061980d8ff13d6b5bf6b13ff8.png\"]",
+    "[\"自動-c7490383fb\", \"自動-c7490383fb\", \"6e0e93037c48dfe25a99844f04315b411a1da6afbf9dbe015f36b7ec47a2948e.png\"]",
+    "[\"東\", \"東\", \"7484962639690295dd142ec37ec486f0e81bfdcc1551a0835eaa75b8ccaa833c.png\"]",
+    "[\"七索\", \"七索\", \"93c89efab390de6217364b676303fe554b8ffe28e3fda5d92411de1262f74f5b.png\"]",
+    "[\"西\", \"西\", \"664144c4134fcc80b67cb07e5481e950396f8f951dda11ee1fec6799c57d62c3.png\"]",
+    "[\"九索\", \"九索\", \"00b96c9a8b125f59400896b3ba31b4d236aa653477ae45f89121cf1887359931.png\"]",
+    "[\"五筒\", \"五筒\", \"4352ed3ea73789eb694b54a0522d1bb75fccae1afe9c61869d16177ee622855e.png\"]",
+    "[\"四索\", \"四索\", \"4c6819f9a214e275761a405d2145288e22ab38b54e2f910489b97ec26e9cc14d.png\"]",
+    "[\"九筒\", \"九筒\", \"805627f747cdaf19ed0b3d468a1ebc92a2178ed92a5cc868e71906f96d91cb5e.png\"]",
+    "[\"二索\", \"二索\", \"216580d8250999cb6a8a30b57f3b8bf091d71a2565e7394e40abd4e5f1c955c8.png\"]",
+    "[\"中\", \"中\", \"a0985b6c2bf49f2955f37a599ce272a5ffacdb42ad7d0a0295d71c2750fad968.png\"]",
+    "[\"六筒\", \"六筒\", \"37b9c2c4cefa2ce4b281eeeb8b0d8cb6a8a5cb65bab6e9da05e20080bc331b8a.png\"]",
+    "[\"二筒\", \"二筒\", \"211096c7ca160b51f1abbca04b4ba0d0f95497a0181e19417abacfb3040c82eb.png\"]",
+    "[\"三索\", \"三索\", \"2ca951094c35c1540aae924b87f9b6258885bd67be3cd33273d5f05cac299197.png\"]",
+    "[\"六索\", \"六索\", \"4fefd64111249e00483ce0fcc661b8239f35ff6a856553056299dd9a9467c204.png\"]",
+    "[\"八索\", \"八索\", \"baa363584d11ad73ca247bfb701a0fb8374dc804537b4ca02e7f2bb63fce72c1.png\"]",
+    "[\"一筒\", \"一筒\", \"1eeff2854f44564667de8ff96f1740bcbe2942d0d92ce92849773a4d19968430.png\"]",
+    "[\"三筒\", \"三筒\", \"35f6075ec574d009c547ff715655810772a149f8510bfc1c6667a770930cd817.png\"]",
+    "[\"五索\", \"五索\", \"1e6be2620c48a63ee3849d154fbfdbed31babf919d5c562de2b7452aa8d3f17d.png\"]",
+    "[\"八萬\", \"八萬\", \"d9895277978c1b99c5c7962a55370c267661090f01e9c7c1bec46fe45374c028.png\"]",
+    "[\"一萬\", \"一萬\", \"a5271e641cbace160610df654e7ec0528e01ff119a2776862ebdb857f89bc810.png\"]",
+    "[\"中\", \"中\", \"254154651008fa095ae65047d4f5cd1fd2b44db1d1657789295d7e9e81d7e6e4.png\"]",
+    "[\"五筒\", \"五筒\", \"f4b4cd101e5ed0b1202ce55105439e0a62161fe7d8f775909e9b0c4e3811c235.png\"]",
+    "[\"九筒\", \"九筒\", \"1c39860157b32910aecafa9e3d35bda836dcb110d6132083a72fa2387dde258a.png\"]",
+    "[\"八索\", \"八索\", \"7d9dbf71eac3ff9b91d418f4aa37725e3926bba748dc78e203bcbeb8d556e669.png\"]",
+    "[\"一索\", \"一索\", \"d70ff7e45672a7f7ccbc7451afbacad9502c7da0495c0b3a0611ebf623ef1d9f.png\"]",
+    "[\"二筒\", \"二筒\", \"35ad1f33cc97fad6e41cca5de82656c4ca0d7121bc5a8790535bf7efcbd3c798.png\"]",
+    "[\"三筒\", \"三筒\", \"16fc1a8955b043a5dae5c8d59210e925505df8f4aa7d38e3d4b3f5a56b2e40cf.png\"]",
+    "[\"北\", \"北\", \"d7c524cfbbc9ce7f76d4ea10dd456d51921c36c53c633579535aaf9662b78894.png\"]",
+    "[\"一萬\", \"一萬\", \"38c441cf3f53c10da11fc5232d0bfa8c648f62e9cecd5fe229f2b3d1a64ba8c9.png\"]",
+    "[\"九索\", \"九索\", \"c08bc6eef0981291e5d9bc4248ed339101a1607c3b897cd5aeea559a56f87f90.png\"]",
+    "[\"五萬\", \"五萬\", \"9de6b9bdde3124569a90ede8bb2bc6b8849f071bf514e81263c8801922ebd72a.png\"]",
+    "[\"三筒\", \"三筒\", \"9434f9999a86128439a35e12dd1f66a637d2323be2456a7d03da567a17f36464.png\"]",
+    "[\"七筒\", \"七筒\", \"3603f7e6356ad75de2fc60c7eb77f81c6dbc60f35d36179666925254b765158c.png\"]",
+    "[\"九萬\", \"九萬\", \"e46718cad814d00d67dc1351488e39d886f565d61f57bc5fcce49dfe9810eef8.png\"]",
+    "[\"東\", \"東\", \"20294e649656ac709bbbf9e559d178820028c7620a3a2163b23a7e087537e5da.png\"]",
+    "[\"南\", \"南\", \"f7b3f0bbffb68c560702666b9da48943aa3e9d52f3dc562176ec2762b908eff0.png\"]",
+    "[\"三索\", \"三索\", \"1f0be4d4c9be91683a2f6849d342cabc97e01157e18a30b03fbbbdd5e15e4f89.png\"]",
+    "[\"二萬\", \"二萬\", \"d7d2e916a9865dd3c96fc5b6299c2a67e36ddd3f5aebe37cac0b738fe8c35712.png\"]",
+    "[\"北\", \"北\", \"ee2d40cb32756c8c4a195f2bef7b97f0e709a68144dd569f0f64e3ab611a84e9.png\"]",
+    "[\"白\", \"白\", \"c5fcdf2d68e46aa704af8e33148f001a0b9aab5fa729d62cb0c80fa39dc93188.png\"]",
+    "[\"四萬\", \"四萬\", \"4a9bc6d6e368ed9e9e13c97c7963547ebb224068c6088f9bea56d0b3274b11eb.png\"]",
+    "[\"五萬\", \"五萬\", \"74d5eb85c54d1b3ef27bd2b00ea3238821e9116de748c348bfc5697c273fc4a0.png\"]",
+    "[\"七筒\", \"七筒\", \"3e72107827db1ffa60aaa894c3d85b7bcfbfdf499af230a66830d957820cb25c.png\"]",
+    "[\"三筒\", \"三筒\", \"fe94831b86d776f0113f0e23074a1f027a7e22aa3c8909f6d21f2728f05bef06.png\"]",
+    "[\"四索\", \"四索\", \"0046f54c9b917edd5f455488b988c1b2e7d9dbda6ec9d55dfa6d735813c01f8d.png\"]",
+    "[\"七萬\", \"七萬\", \"a9999c991d577a4f3f45a430f8329cbdda2320335ef2aae448d1e254b0106b06.png\"]",
+    "[\"九萬\", \"九萬\", \"916ee5e6cbfa3d5efca07b36f02e2486cf6bf115f157c67519843fe12f3c66fd.png\"]",
+    "[\"二筒\", \"二筒\", \"bc58d36d6839ed5e3ae1c6b3bb6c537d074cfe85cc0d119ba0a0139b1ce23740.png\"]",
+    "[\"一索\", \"一索\", \"5c39388f5b0ca718f940f1cceac4475409927ae7976cd374d0abea6d63e72258.png\"]",
+    "[\"西\", \"西\", \"7a5cb2e422b73e25cce30176523fbc0d5e274f20d66c50516d7deee706f60e15.png\"]",
+    "[\"一萬\", \"一萬\", \"c352471df7208ef9572930c496c7a398cdb7c7b68b01f09ce02ab1703a11aa10.png\"]",
+    "[\"六萬\", \"六萬\", \"62b565b82ca1a9649b646a618620c761cb84a6bb1d8ebe62e5a2a2e116aec4c0.png\"]",
+    "[\"六筒\", \"六筒\", \"cec0b364e1d4ab69f3b5055e71240aa2b192cc2daf31e2b2ffbcf294d7bb63ca.png\"]",
+    "[\"中\", \"中\", \"a9a2980d7c8c62c9d3664c008421cbcf31a691a88a11d68b7a7e8e852bb104e8.png\"]",
+    "[\"八索\", \"八索\", \"9ad1db426702db930e9f3e46d5686be7f2f65cfef231579ad59a371aa1735731.png\"]",
+    "[\"五索\", \"五索\", \"6f664ba7c1082e106da224982a903941cc7bc8bdc60efec4426d9b3df87e03d9.png\"]",
+    "[\"發\", \"發\", \"d230087491b454bdce9d91c76576b2b81c17350c3db40cf8f263caaba6faaa57.png\"]",
+    "[\"九索\", \"九索\", \"74e03cf34f6c3e72b3bef1c76357a73f7bb52ce0eb53bf9c0a9892870c4622f3.png\"]",
+    "[\"八萬\", \"八萬\", \"4c2681cd615a7d12b1e6b5f6c7ab971a8cb6c13b520079191fe60220a98de404.png\"]",
+    "[\"六索\", \"六索\", \"bfebdfc8dbdf0a842f8adbb838d7e1c5d8db6d4ef1e2baa655f19698253b8637.png\"]",
+    "[\"一筒\", \"一筒\", \"699cec3265c568176fe39fa5ede722da71a7fcec40ebaccca7e86d1a92b850da.png\"]",
+    "[\"二索\", \"二索\", \"ccb8838ee78ea67c092e75953cb6407d258494241541aa6235a08e8c2cdf2611.png\"]",
+    "[\"三萬\", \"三萬\", \"1b5053184be3838cfe6ce17c30c6ac22dbf28e15f9c4c2f489c74ebec063a0ff.png\"]",
+    "[\"九筒\", \"九筒\", \"396978ba9480291cb8f3e50cc27ff655bd47a7dd8cd9aabd1eae650c9a9e34bd.png\"]",
+    "[\"七筒\", \"七筒\", \"994f3980e2d616ae85f5938e157f218f31cce6c88f6fcf6bbfa1ba0f988ec773.png\"]",
+    "[\"五索\", \"五索\", \"b1da02f7c63888c273dfdf152326dece17a5614a09b8e4e8ec61200792c0527a.png\"]",
+    "[\"發\", \"發\", \"a74b4a88d0aecabaab823a4c977d9c66896748abcbb7447702fc0c8b354b382c.png\"]",
+    "[\"一筒\", \"一筒\", \"6888fd832448e337fd07a74cc72e25cde7fa8f4dc35e9892ec9341cdcdf9a205.png\"]",
+    "[\"花柄・青い鳥\", \"花柄・青い鳥\", \"a4e73eb7af51f87b1853840fb935bb808b937dd64cb6ac9d287c3465b0553eb3.png\"]",
+    "[\"發\", \"發\", \"b27341d7f5f6e81200c169c4f28a6892671875e2808dfd650a42f5a0184e1cef.png\"]",
+    "[\"四筒\", \"四筒\", \"8f29c345e3fa674ee11a9b94355ebf3b31594a17328248d36354be6eb5527f63.png\"]",
+    "[\"五筒\", \"五筒\", \"975d8aad33e63ec2a39d3d6dff29a575cf728140e6066c97eb5ac00045b04906.png\"]",
+    "[\"中\", \"中\", \"684120d5acbd5fe732047022e273473aba21ce638c2e3709d6d436a0ee183381.png\"]",
+    "[\"三筒\", \"三筒\", \"66ff2a56c0ef33917b90b2d16f470df41d161030c35f278e1eb8be885c85ff0d.png\"]",
+    "[\"六筒\", \"六筒\", \"d6daea741294a30dacaec1290409ff0b0c9e753c71b61bd8f5dfc0804b2e2464.png\"]",
+    "[\"二筒\", \"二筒\", \"8faa10028aa6d9d2470bd81f35ec344531863ebe1eb9ade51ae53db7c1e26164.png\"]",
+    "[\"白\", \"白\", \"ccca4c755c59c4b8b99363a733d8b1218d00712704243972c992522af4a6bd44.png\"]",
+    "[\"白\", \"白\", \"30594d8d4f0c5dceea5078931ab8a51c5e3d70a62f11d9ee1b99a08f6d54901a.png\"]",
+    "[\"花柄・七夕\", \"花柄・七夕\", \"d34e35f953614b1476ce028db56404cd03e9d3b798a7b6fa5fbfdf70ba7d5893.png\"]",
+    "[\"花柄・丸い赤花\", \"花柄・丸い赤花\", \"0af56ce084630238707dfd51c4ca011d278a9e2bb57f9c94c5ffbab4d2709150.png\"]",
+    "[\"花柄・赤い二輪\", \"花柄・赤い二輪\", \"930b195012cd4ae21890768814ee7ab2335bfd7e2c0deb21453a17ee9666bfea.png\"]",
+    "[\"花柄・赤い花\", \"花柄・赤い花\", \"6dc337942f677e8dc95bf0b05b78a4f438d1d18223e20beb24f78af8649558a8.png\"]",
+    "[\"白\", \"白\", \"5030b726b46b805235aff60d44acc7782387e5cbdd179ee42058ed2eb1521eeb.png\"]",
+    "[\"一筒\", \"一筒\", \"6b6768743bd52176a629d0ad3dd9dbd27dee22a1898e246a2209400f66b059a1.png\"]",
+    "[\"四筒\", \"四筒\", \"3420c5c039a14c5defe96daa1e79a468cfd0bd01da939d166bc12df929f3925f.png\"]",
+    "[\"五索\", \"五索\", \"344c674de15f28c63f3ea228ea54d9932ffd26cdf8f421cc2c70b25a72fd93bb.png\"]",
+    "[\"六索\", \"六索\", \"db565e38cf3aa526cd212e2208adae7f39251d402de086a641dd4d1d530e61be.png\"]",
+    "[\"三索\", \"三索\", \"ff0de326dfc24e1e94a36fba30cb4cde67c429bc01624433156378743d489bdc.png\"]",
+    "[\"二索\", \"二索\", \"648b5afba9fd170adf2700ea28ce97b803ff13ad6e055878164ecd84503619fc.png\"]",
+    "[\"四索\", \"四索\", \"7bad30a64034a1a95bf87540f84e027ff5eec48ff8642e131dccbbb7266eb8ae.png\"]",
+    "[\"北\", \"北\", \"43e3348d85452ada777f95cbc3d300b294f084ee24a4614b5610e565762f3e59.png\"]",
+    "[\"西\", \"西\", \"6a368a9af14b457d23677cb7aaf8eca9d3a7dfe77b30484b4a4757f0fc3e4c27.png\"]",
+    "[\"南\", \"南\", \"0e3b0dad1b23d8cfec390105758e1802e0255191f9bea75e2f09d62404334da8.png\"]",
+    "[\"東\", \"東\", \"c81dd11dc7f946b6563e841735e59027d727e62e272e262e396c84fd1a882e4c.png\"]",
+    "[\"五萬\", \"五萬\", \"4b25ba638617d0816f9739520c5b85e25c3883d51fe901d7fc1eb8a23554bfac.png\"]",
+    "[\"四萬\", \"四萬\", \"ac13157b1d3aca2b181e12c1357d0e53685c822c1a32bf58ff84142479fbd43e.png\"]",
+    "[\"一萬\", \"一萬\", \"3b4544dca135af692299d5bd83edb4993f9d1d0d750f129ba4a65c483e26048f.png\"]",
+    "[\"二萬\", \"二萬\", \"f89e69ad8a5a2e11b1ca33be960997628dca493b287eae365ced10ec1fee1a74.png\"]",
+    "[\"三萬\", \"三萬\", \"6c5e0cb038751dbb4f236d24c81df8c3160be2a9d0dc72d3b1b9b1d73b3da667.png\"]",
+    "[\"一萬\", \"一萬\", \"bc83c990174fe078950782990d2750bd7dab8baeba8cb6296fba2bc6ff8bda61.png\"]",
+    "[\"七索\", \"七索\", \"0607df376ea23d23d1911a6236a9d5a7abc392e20bca99860377c88b5da9f655.png\"]",
+    "[\"七筒\", \"七筒\", \"78f5ae4739852efffa1fa1d62c27cca84d9775436575f6d67f453b9666060ea2.png\"]",
+    "[\"八筒\", \"八筒\", \"ca79f94548c4f245dd9736fc60d3e742449c0e1413b00d2e26025a4eea7dff05.png\"]",
+    "[\"九筒\", \"九筒\", \"d1785899a530222361e42e3263951df24052e199ee065ddb9246e0c688603f64.png\"]",
+    "[\"三萬\", \"三萬\", \"11efce9407613ca207b4b4e90f6ead3a80eb01c23b76fbf24220517579d908ce.png\"]",
+    "[\"七索\", \"七索\", \"ebad65179e7106b14b9999431b810b335d3f7573dde7c49f71dfe0ff9e1b8edf.png\"]",
+    "[\"八索\", \"八索\", \"64d80232283de8b66d5deea9c66596d5f44e72851ec7b5c25ba92608ee66bcee.png\"]",
+    "[\"九索\", \"九索\", \"5ffb9cc1f99edf23e6e31cceac319aa8483c81980d6abb6fcc1939d26bd2651c.png\"]",
+    "[\"自動-6197e856d8\", \"自動-6197e856d8\", \"999efac9c91f0dfa6061fa1c0d8eafac851ece472780350a0e0dbdb1c7c8b9c9.png\"]",
+    "[\"自動-ecd6d21ece\", \"自動-ecd6d21ece\", \"f776e3869b20ccb71a4a7d528de304d4df2a17cbffb8c49918bb00c7538d0b85.png\"]",
+    "[\"自動-66e82a57bf\", \"自動-66e82a57bf\", \"41a309a09f5b312d7e7013f008846d345e3a99dec245782fb1c0f6b9da4c4b92.png\"]",
+    "[\"自動-2d25e208cc\", \"自動-2d25e208cc\", \"bce29b47993b291a45169a495c6bae8e18e4d6ad1f882d34544222b27ae7804d.png\"]",
+    "[\"自動-1b65e0aaef\", \"自動-1b65e0aaef\", \"d10c55cbe12a67b40354645e43429e3d9afe77d88e3bc1090d7f56dca1c05118.png\"]",
+    "[\"自動-ae5ccd2bc9\", \"自動-ae5ccd2bc9\", \"cbc83afddba1433197031003dd0817792c4878229624d1bf1918ca3b284879c2.png\"]",
+    "[\"自動-64232ed631\", \"自動-64232ed631\", \"5f66824282995d015fe3dc303334f156d1189b542357f423ceb69b2438fa61e0.png\"]",
+    "[\"自動-9182d95996\", \"自動-9182d95996\", \"ce784fe4ed4c066ecda1e44e275cc1fedd3dcd909ffc578ea29c113a9f04a468.png\"]",
+    "[\"自動-1a72beee3e\", \"自動-1a72beee3e\", \"42e6be9e1f03c9fe29e9035ad4560fbe69c4c6f6de2d8c5b2de8c6bc763e33e7.png\"]",
+    "[\"自動-8e99172e83\", \"自動-8e99172e83\", \"6feb83877313efd5f2fd9aa6e92d985df9e41977e3353b41408ace26b1a8654a.png\"]",
+    "[\"自動-14b9a0e8a7\", \"自動-14b9a0e8a7\", \"482cb8078eac3fb17d72f597eb9c406721510185a8e6032e7c0baaf611d5fd1d.png\"]",
+    "[\"自動-e3bb898b81\", \"自動-e3bb898b81\", \"cb3f5e46b1fffb49dd3191c46050912251eb01cec9f954a8307a7a87f8076359.png\"]",
+    "[\"自動-ed50e18e4d\", \"自動-ed50e18e4d\", \"7035dc9cee378a5a6312f05c362a7af49c0d9ac5255df2016d7cdf59b8ff54a3.png\"]",
+    "[\"自動-f84787b3f9\", \"自動-f84787b3f9\", \"88311a92e05b8e88baf9ea75dee9ee53345021fed69523c8d12d2db2be900510.png\"]",
+    "[\"自動-5577fd059a\", \"自動-5577fd059a\", \"0d65051e81fbdb3690056fd3e7512ec60cde95b9dd8a15a94b9738cb81758307.png\"]",
+    "[\"自動-d8a3876d47\", \"自動-d8a3876d47\", \"668338189615e2590f02e14af34acb4fb1ced591fe7973884c420b6f5f302ecc.png\"]",
+    "[\"自動-3aa5adbb3d\", \"自動-3aa5adbb3d\", \"d0e2b3efefe99d5c2116f9427cd3c49f2a2afbb868e5062924b36f550dc4881a.png\"]",
+    "[\"自動-e2f43a49b8\", \"自動-e2f43a49b8\", \"77423c1cf5d58770221db23259eccdf6464aec9f41e895e30b32b1857a35aa5a.png\"]",
+    "[\"自動-cd8fbd9138\", \"自動-cd8fbd9138\", \"6f522c269331d74863688e1340b8b5d10cc57acade6238e08826c4d959a6bad2.png\"]",
+    "[\"自動-1d95e1facb\", \"自動-1d95e1facb\", \"ee8108cd4b8f2d236e094351290a9b9feeb0c149e6b573834f7180ae167c0d40.png\"]"
+  ],
+  "prioritize_stock": true,
+  "prioritize_height": true,
+  "pair_priority": "stock",
+  "no_pair_text": "取れるペアが見つかりません",
+  "idle_text": "待機中",
+  "recognizing_text": "画像認識中",
+  "found_pairs_text": "{件数}件のペアが見つかりました",
+  "searching_text": "ペアを探しています",
+  "notice_font_size": 18,
+  "no_pair_position": [
+    0.05211694409666415,
+    0.11670696682575818
+  ],
+  "pair_count": 4,
+  "initial_width": 1250,
+  "initial_height": 900,
+  "debug_mode": true,
+  "remember_size": true,
+  "last_size": [
+    893,
+    633
+  ]
+}
